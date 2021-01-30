@@ -1,8 +1,8 @@
-import React, {useState} from 'react';
+import React, {Component, useState} from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
 
 
-function Login() {
+function Login(){
   const [email, setEmail] = useState(''); // initialize state
   const [password, setPassword] = useState(''); // initialize state
 
@@ -36,6 +36,7 @@ function Login() {
 
     );
   }
+
   
   const styles = StyleSheet.create({
     container: {
