@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component } from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import {Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native'
 
 function Landing(){
@@ -11,11 +12,14 @@ function Landing(){
 
       <View>
           <Text style={styles.text}>
-          TESTING HOME PAGE
+          Welcome To Coffida 
           </Text>
           <TouchableOpacity style={styles.button}>
-              <Button
-              title="Account" 
+              <Icon
+              icon="camera"
+              color={Colors.red500}
+              size={20}
+              //title="Account" 
               onPress={() => navigation.navigate('Login')}
               />
             </TouchableOpacity>
@@ -31,7 +35,10 @@ function Landing(){
       //marginTop: Constants.statusBarHeight,
     },
     text: {
-      fontSize: 14,
+      fontSize: 25,
+      textAlign: 'center',
+      fontWeight: 'bold',
+      marginTop: 10,
     },
     textboxUser: {
       borderWidth: 0.5,
@@ -46,8 +53,8 @@ function Landing(){
       width: '70%'
     },
     button:{
-      width:'30%',
-      marginTop: 100,
+      width:'25%',
+      marginTop: 10,
     }
   });
   

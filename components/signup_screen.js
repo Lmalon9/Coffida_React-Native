@@ -1,48 +1,52 @@
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
-import { useNavigation } from '@react-navigation/native'
 
 
-function Login(){
-  const [email, setEmail] = useState(''); // initialize state
-  const [password, setPassword] = useState(''); // initialize state
-  const navigation = useNavigation()
+function SignUp(){
+    const [first_name, setFirstName] = useState(''); // initialize state
+    const [last_name, setLastName] = useState(''); // initialize state
+    const [email, setEmail] = useState(''); // initialize state
+    const [password, setPassword] = useState(''); // initialize state
 
   function alert(){
-    Alert.alert('Email: '+ email + ' Password: ' + password)
-    console.log(email, password)
+    Alert.alert('First: '+ first_name + ' Last: ' + last_name + ' email: ' + email + ' password: ' + password)
+    console.log(first_name, last_name, email, password)
   }
 
     return (
       <View style={styles.container}>
           <Text style={styles.text}>
+            First Name:
+          </Text>
+          <TextInput placeholder = 'First Name' style={styles.textboxUser}
+          onChangeText = {text => setFirstName(text)}
+          />
+          <Text style={styles.text}>
+            Last Name:
+          </Text>
+          <TextInput placeholder = 'Last Name' style={styles.textboxPass}
+          onChangeText = {text => setLastName(text)}
+          
+          />  
+          <Text style={styles.text}>
             Email:
           </Text>
-          <TextInput placeholder = 'Email' style={styles.textboxUser}
+          <TextInput placeholder = 'Email:' style={styles.textboxPass}
           onChangeText = {text => setEmail(text)}
-          />
+          
+          />  
           <Text style={styles.text}>
             Password:
           </Text>
-          <TextInput placeholder = 'Password' style={styles.textboxPass}
+          <TextInput placeholder = 'Password:' style={styles.textboxPass}
           onChangeText = {text => setPassword(text)}
           secureTextEntry = {true}
           />  
+
           <TouchableOpacity on style={styles.button}>
-          <Button title = 'Login' 
+          <Button title = 'Create Account' 
           
            onPress = {() => alert()}
-          />
-          </TouchableOpacity>
-
-          <Text style={styles.textSignUp}>
-          Dont Have an Account?
-          </Text>
-
-          <TouchableOpacity on style={styles.button}>
-          <Button 
-          title = 'Sign Up' 
-          onPress={() => navigation.navigate('SignUp')}
           />
           </TouchableOpacity>
       </View>
@@ -87,11 +91,11 @@ function Login(){
       width: '70%'
     },
     button:{
-      width:'25%',
+      width:'50%',
       marginTop:'5%',
-      marginLeft:'20%',
+      marginLeft:'10%',
     }
   });
 
   
-  export default Login;
+  export default SignUp;
