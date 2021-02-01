@@ -1,31 +1,34 @@
 import 'react-native-gesture-handler';
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
 import {Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native'
 
-function Landing(){
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
-  const navigation = useNavigation()
-  
+
+function Landing(){
+const navigation = useNavigation()
+
+
   return (
 
       <View>
           <Text style={styles.text}>
           Welcome To Coffida 
           </Text>
-          <TouchableOpacity style={styles.button}>
-              <Icon
-              icon="camera"
-              color={Colors.red500}
-              size={20}
-              //title="Account" 
-              onPress={() => navigation.navigate('Login')}
-              />
-            </TouchableOpacity>
+          
+          <Button
+          title = 'Account'
+          
+          onPress={() => navigation.navigate("Account")}
+          />
+          
       </View>
   );
 }
+
+
 
   const styles = StyleSheet.create({
     container: {
@@ -53,9 +56,8 @@ function Landing(){
       width: '70%'
     },
     button:{
-      width:'25%',
       marginTop: 10,
     }
   });
-  
+
 export default Landing

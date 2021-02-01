@@ -1,14 +1,40 @@
 import 'react-native-gesture-handler';
-import React, { Component } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
 
 function Account(){
-    const [first_name, setFirstName] = useState(''); // initialize state
+    const [first_name, setFirstName] = useState('Test'); // initialize state
     const [last_name, setLastName] = useState(''); // initialize state
     const [email, setEmail] = useState(''); // initialize state
     const [password, setPassword] = useState(''); // initialize state
-    const navigation = useNavigation()
+    const navigation = useNavigation();
+
+    useEffect(() => {
+       navigation.addListener('focus', () => {
+          checkLoggedIn();
+        }
+        )
+    async function checkLoggedIn(){
+      try{
+      const value = await AsyncStorage.getItem("@session_token");
+      if (value == null){
+        navigation.navigate("Login")
+      }
+      else{
+        navigation.navigate("Account")
+        
+      }
+    }
+    catch (error){
+
+    }
+    }
+  }
+  ); 
+    
   
   return (
 
@@ -19,12 +45,13 @@ function Account(){
           <TouchableOpacity style={styles.button}>
               <Button
               title="Home Screen" 
-              onPress={() => navigation.navigate('Home')}
+              onPress={() => navigation.navigate("Home")}
               />
             </TouchableOpacity>
       </View>
   );
 }
+
 
   const styles = StyleSheet.create({
     container: {

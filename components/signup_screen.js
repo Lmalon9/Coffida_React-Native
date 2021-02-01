@@ -3,10 +3,13 @@ import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, Nat
 
 
 function SignUp(){
+
     const [first_name, setFirstName] = useState(''); // initialize state
     const [last_name, setLastName] = useState(''); // initialize state
     const [email, setEmail] = useState(''); // initialize state
     const [password, setPassword] = useState(''); // initialize state
+
+
 
   function alert(){
     Alert.alert('First: '+ first_name + ' Last: ' + last_name + ' email: ' + email + ' password: ' + password)

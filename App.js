@@ -14,6 +14,11 @@ const Stack = createStackNavigator();
 
 
 class App extends Component {
+  state = {
+    isLoggedIn: false
+  }
+
+
   render(){
   return (
    <NavigationContainer> 
