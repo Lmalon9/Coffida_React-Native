@@ -5,27 +5,67 @@ import {Icon} from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native'
 
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import Login from './login_screen';
 
 
 function Landing(){
 const navigation = useNavigation()
+const [loggedin, setLoggedin] = useState(true);
 
+useEffect(() => {
+  navigation.addListener('focus', () => {
+     checkLoggedIn();
+   }
+   )
+  async function checkLoggedIn(){
+  try{
+    const value = await AsyncStorage.getItem("@session_token");
+  if (value == null){
+    setLoggedin(false);
+    }
+  else{
+    setLoggedin(true);
+  }
+  }
+  catch (error){
 
+  }
+  }
+  }
+  ); 
+
+  if (loggedin == false){
   return (
-
+  
       <View>
-          <Text style={styles.text}>
-          Welcome To Coffida 
-          </Text>
+         <Text style={styles.text}>
+         Welcome To Coffida 
+         </Text>
           
           <Button
-          title = 'Account'
+          title = 'Login'
           
-          onPress={() => navigation.navigate("Account")}
-          />
+          onPress={() => navigation.navigate("Login")}
+         />
           
-      </View>
+     </View>
   );
+}
+
+else{
+  return(
+  <View>
+    <Text style={styles.text}>
+      test fail
+    </Text>
+    <Button
+    title = 'Account'
+    
+    onPress={() => navigation.navigate("Account")}
+    />
+  </View>
+    )
+}
 }
 
 
