@@ -1,5 +1,6 @@
 import React, {Component, useState} from 'react';
 import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { useNavigation } from '@react-navigation/native'
 
 
 function SignUp(){
@@ -8,7 +9,43 @@ function SignUp(){
     const [last_name, setLastName] = useState(''); // initialize state
     const [email, setEmail] = useState(''); // initialize state
     const [password, setPassword] = useState(''); // initialize state
+    const navigation = useNavigation()
 
+
+    const sendSignUp = () => {
+      fetch("http://10.0.2.2:3333/api/1.0.0/user",
+      {
+        method: 'post',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify( {
+          first_name: first_name,
+          last_name: last_name,
+          email: email,
+          password: password,
+        }),
+      })
+
+      .then ((res) => {
+        if (res.status == 201)
+        {
+          
+          return res.json();
+          
+        }
+        else{
+          throw 'failed';
+        };
+
+      })
+      .then ( (data) => {
+        console.log(data);
+        navigation.navigate("Login")
+
+      })
+      .catch( (message) => { console.log("ERROR" + message)})
+    }
 
 
   function alert(){
@@ -49,7 +86,7 @@ function SignUp(){
           <TouchableOpacity on style={styles.button}>
           <Button title = 'Create Account' 
           
-           onPress = {() => alert()}
+           onPress = {sendSignUp}
           />
           </TouchableOpacity>
       </View>

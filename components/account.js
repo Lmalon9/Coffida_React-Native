@@ -34,6 +34,39 @@ function Account(){
     }
   }
   ); 
+
+  const sendlogout = async () => {
+    token = await AsyncStorage.getItem('@session_token');
+    console.log(token)
+    await AsyncStorage.removeItem('@session_token');
+    fetch("http://10.0.2.2:3333/api/1.0.0/user/logout",
+    {
+      method: 'post',
+      headers: {
+        "X-Authorization": token,
+      },
+    })
+
+    .then ((res) => {
+      if (res.status === 200)
+      {
+        return      
+      }
+      else{
+        throw 'failed';
+      };
+
+    })
+    .then (async (data) => {
+
+      console.log(data);
+      await AsyncStorage.removeItem('@session_token');
+      navigation.navigate("Home")
+
+    })
+    .catch( (message) => { console.log("ERROR" + message)})
+  }
+
     
   
   return (
@@ -46,6 +79,12 @@ function Account(){
               <Button
               title="Home Screen" 
               onPress={() => navigation.navigate("Home")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Button
+              title="Log Out" 
+              onPress={sendlogout}
               />
             </TouchableOpacity>
       </View>
