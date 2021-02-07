@@ -36,7 +36,7 @@ function Login(){
     .then (async (data) => {
 
       console.log(data);
-      await AsyncStorage.setItem('@session_token', data.token);
+      await AsyncStorage.setItem('@session_token', JSON.stringify(data));
       navigation.navigate("Home")
 
     })

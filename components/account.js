@@ -5,12 +5,15 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-function Account(){
-    const [first_name, setFirstName] = useState('Test'); // initialize state
+function Account ({ route }) {
+    
+    const [first_name, setFirstName] = useState(''); // initialize state
     const [last_name, setLastName] = useState(''); // initialize state
     const [email, setEmail] = useState(''); // initialize state
     const [password, setPassword] = useState(''); // initialize state
     const navigation = useNavigation();
+    
+    
 
     useEffect(() => {
        navigation.addListener('focus', () => {
@@ -25,6 +28,7 @@ function Account(){
       }
       else{
         navigation.navigate("Account")
+        getAccount();
         
       }
     }
@@ -35,15 +39,50 @@ function Account(){
   }
   ); 
 
+  const getAccount = async () => {
+    console.log("account check", route.params.userId)
+    //const userId = route.params.userId
+    var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    fetch(`http://10.0.2.2:3333/api/1.0.0/user/${route.params.userId}`,
+    {
+      method: 'get',
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": tokenlog,
+      },
+    })
+    .then ((res) => {
+      if (res.status === 200)
+      {
+        return res.json();
+      }
+      else{
+        throw 'failed';
+      };
+
+    })
+    .then ( (data) => {
+      console.log(data);
+      setFirstName(data.first_name);
+      setLastName(data.last_name);
+      setEmail(data.email);
+
+    })
+    .catch( (message) => { console.log("ERROR" + message)})
+  }
+
+
+
+  
   const sendlogout = async () => {
-    token = await AsyncStorage.getItem('@session_token');
-    console.log(token)
+    var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    console.log(tokenlog)
     await AsyncStorage.removeItem('@session_token');
     fetch("http://10.0.2.2:3333/api/1.0.0/user/logout",
     {
       method: 'post',
       headers: {
-        "X-Authorization": token,
+        "X-Authorization": tokenlog,
       },
     })
 
@@ -75,10 +114,22 @@ function Account(){
           <Text style={styles.text}>
           Hello + {first_name}
           </Text>
+          <Text style={styles.text}>
+          {first_name} + {last_name}
+          </Text>
+          <Text style={styles.text}>
+          {email}
+          </Text>
           <TouchableOpacity style={styles.button}>
               <Button
               title="Home Screen" 
               onPress={() => navigation.navigate("Home")}
+              />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Button
+              title="Update User" 
+              onPress={() => navigation.navigate("AccountUpdate")}
               />
             </TouchableOpacity>
             <TouchableOpacity style={styles.button}>

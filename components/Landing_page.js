@@ -8,15 +8,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import Login from './login_screen';
 
 
-function Landing(){
-const navigation = useNavigation()
+function Landing({ navigation }){
+//const navigation = useNavigation()
 const [loggedin, setLoggedin] = useState(true);
+const [id, setId] = useState('')
 
 useEffect(() => {
   navigation.addListener('focus', () => {
      checkLoggedIn();
    }
-   )
+  )
   async function checkLoggedIn(){
   try{
     const value = await AsyncStorage.getItem("@session_token");
@@ -24,19 +25,21 @@ useEffect(() => {
     setLoggedin(false);
     }
   else{
+    setId(JSON.parse(await AsyncStorage.getItem('@session_token')).id);
     setLoggedin(true);
+    //console.log("landing page ", id);
+
   }
   }
   catch (error){
 
   }
-  }
-  }
-  ); 
+  } 
+  } 
+  , []); 
 
   if (loggedin == false){
   return (
-  
       <View>
          <Text style={styles.text}>
          Welcome To Coffida 
@@ -45,7 +48,7 @@ useEffect(() => {
           <Button
           title = 'Login'
           
-          onPress={() => navigation.navigate("Login")}
+          onPress={() => navigation.navigate("Login")} 
          />
           
      </View>
@@ -61,7 +64,7 @@ else{
     <Button
     title = 'Account'
     
-    onPress={() => navigation.navigate("Account")}
+    onPress={() => navigation.navigate("Account", {userId: id})}
     />
   </View>
     )

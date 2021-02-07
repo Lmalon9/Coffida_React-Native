@@ -8,6 +8,7 @@ import Landing from './components/Landing_page.js'
 import Login from './components/login_screen.js'
 import SignUp from './components/signup_screen.js'
 import Account from './components/account.js'
+import AccountUpdate from './components/account_update.js'
 
 
 const Stack = createStackNavigator();
@@ -15,7 +16,8 @@ const Stack = createStackNavigator();
 
 class App extends Component {
   state = {
-    isLoggedIn: false
+    isLoggedIn: false,
+    
   }
 
 
@@ -27,6 +29,8 @@ class App extends Component {
      <Stack.Screen name="Login" component={Login} />
      <Stack.Screen name="SignUp" component={SignUp} />
      <Stack.Screen name="Account" component={Account} />
+     <Stack.Screen name="AccountUpdate" component={AccountUpdate} />
+
 
      </Stack.Navigator>
     </NavigationContainer>
