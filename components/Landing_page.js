@@ -40,7 +40,8 @@ useEffect(() => {
 
   if (loggedin == false){
   return (
-      <View>
+    <View style={styles.container}>
+      <View style={styles.flexbox}>
          <Text style={styles.text}>
          Welcome To Coffida 
          </Text>
@@ -52,20 +53,26 @@ useEffect(() => {
          />
           
      </View>
+     </View>
   );
 }
 
 else{
   return(
-  <View>
-    <Text style={styles.text}>
-      test fail
-    </Text>
-    <Button
-    title = 'Account'
-    
-    onPress={() => navigation.navigate("Account", {userId: id})}
-    />
+  <View style={styles.container}>
+    <View style={styles.flexbox}>
+      <Text style={styles.text}>
+      Welcome To Coffida
+      </Text>
+    </View>
+    <View style= {{ height: 200}}>
+      <Button title = 'Account'
+      onPress={() => navigation.navigate("Account", {userId: id})}
+      />
+      <Button title = 'List' 
+      onPress={() => navigation.navigate("CoffeeList")}
+      />
+    </View>
   </View>
     )
 }
@@ -75,28 +82,31 @@ else{
 
   const styles = StyleSheet.create({
     container: {
-      width: '100%',
-      height: '100%',
-      marginTop: StatusBar.currentHeight || 0,
+      flex: 1,
+      flexDirection: 'column', 
+      alignItems: 'stretch',
+      justifyContent: 'center'
+
+      // width: '100%',
+      // height: '100%',
+      // marginTop: StatusBar.currentHeight || 0,
       //marginTop: Constants.statusBarHeight,
+    },
+    flexbox:{
+      height: 200, 
+      backgroundColor: 'skyblue', 
+      //border:2,
+      borderColor: 'blue',
+      borderRadius:10
     },
     text: {
       fontSize: 25,
       textAlign: 'center',
       fontWeight: 'bold',
-      marginTop: 10,
-    },
-    textboxUser: {
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
-      
-    },
-    textboxPass: {
-      
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
+      alignContent: 'center',
+      alignItems: 'center',
+      textAlign:'center'
+     
     },
     button:{
       marginTop: 10,

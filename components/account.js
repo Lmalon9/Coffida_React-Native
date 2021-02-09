@@ -110,34 +110,41 @@ function Account ({ route }) {
   
   return (
 
-      <View>
-          <Text style={styles.text}>
-          Hello + {first_name}
+      <View style={styles.container}>
+        <View style={{height:200, backgroundColor:'skyblue'}}>
+          <Text style={styles.textHeader}>
+          Hello {first_name}!
           </Text>
           <Text style={styles.text}>
-          {first_name} + {last_name}
+          Users name: {first_name} {last_name}
           </Text>
           <Text style={styles.text}>
-          {email}
+          Users Email address: {email}
           </Text>
+
+          <TouchableOpacity style={styles.buttonUpdate}>
+              <Button
+              title="Update User" 
+              onPress={() => navigation.navigate("AccountUpdate")}
+              />
+            </TouchableOpacity>
+
+          <TouchableOpacity style={styles.buttonLogOut}>
+              <Button style={{alignContent: 'center'}}
+              title="Log Out" 
+              onPress={sendlogout}
+              />
+            </TouchableOpacity>
+        </View>
+
           <TouchableOpacity style={styles.button}>
               <Button
               title="Home Screen" 
               onPress={() => navigation.navigate("Home")}
               />
             </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Button
-              title="Update User" 
-              onPress={() => navigation.navigate("AccountUpdate")}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button}>
-              <Button
-              title="Log Out" 
-              onPress={sendlogout}
-              />
-            </TouchableOpacity>
+            
+           
       </View>
   );
 }
@@ -145,32 +152,42 @@ function Account ({ route }) {
 
   const styles = StyleSheet.create({
     container: {
-      width: '100%',
-      height: '100%',
-      marginTop: StatusBar.currentHeight || 0,
+      flex: 1,
+      flexDirection: 'column', 
+      alignItems: 'stretch',
+      // width: '100%',
+      // height: '100%',
+      // marginTop: StatusBar.currentHeight || 0,
       //marginTop: Constants.statusBarHeight,
     },
-    text: {
+    textHeader: {
       fontSize: 30,
       textAlign: 'center',
       fontWeight: 'bold',
+      //marginTop: 10,
+      borderRadius: 10
+    },
+    text: {
+      fontSize: 15,
+      textAlign: 'left',
       marginTop: 10,
     },
-    textboxUser: {
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
-      
-    },
-    textboxPass: {
-      
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
-    },
+
     button:{
       width:'25%',
+      //marginTop: 15,
+      alignContent: 'center'
+    },
+    buttonUpdate:{
+      width:'55%',
       marginTop: 10,
+      alignContent: 'center'
+    },
+    buttonLogOut:{
+      width:'25%',
+      marginTop: -35,
+      marginLeft:300,
+      alignContent: 'center'
     }
   });
   

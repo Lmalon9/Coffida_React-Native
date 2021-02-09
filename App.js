@@ -9,6 +9,9 @@ import Login from './components/login_screen.js'
 import SignUp from './components/signup_screen.js'
 import Account from './components/account.js'
 import AccountUpdate from './components/account_update.js'
+import CoffeeList from './components/coffee_list.js'
+import coffeeLocation from './components/coffee_location.js'
+import { ScreenStackHeaderLeftView } from 'react-native-screens';
 
 
 const Stack = createStackNavigator();
@@ -25,7 +28,9 @@ class App extends Component {
   return (
    <NavigationContainer> 
     <Stack.Navigator>
-     <Stack.Screen name="Home" component={Landing} />
+     <Stack.Screen name="Home" component={Landing}  />
+     <Stack.Screen name="CoffeeList" component={CoffeeList} />
+     <Stack.Screen name="CoffeeLocation" component={coffeeLocation} />
      <Stack.Screen name="Login" component={Login} />
      <Stack.Screen name="SignUp" component={SignUp} />
      <Stack.Screen name="Account" component={Account} />
