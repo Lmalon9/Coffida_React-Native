@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
-import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { View, TextInput, StyleSheet, TouchableOpacity, Alert, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
+import { Card, Text, Button, Layout } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
@@ -106,66 +107,93 @@ function Account ({ route }) {
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
+  const Header = (props) => (
+    <Layout {...props} style={[props.style, styles.headerContainer]}>
+      <Text category='h2'>Hello {first_name}</Text>
+    </Layout>
+  );
+
+  const Footer = (props) => (
+    <Layout {...props} style={[props.style, styles.footerContainer]}>
+      <TouchableOpacity>
+              <Button style={styles.button}
+              size = 'small'
+              title="Update User" 
+              onPress={() => navigation.navigate("AccountUpdate")}
+              >
+                Update user
+              </Button>
+            </TouchableOpacity>
+
+          <TouchableOpacity >
+              <Button style={styles.button}
+              size = 'small'
+              title="Log Out" 
+              onPress={sendlogout}
+              >
+                Log Out
+              </Button>
+            </TouchableOpacity>
+
+    </Layout>
+  )
+
     
   
   return (
 
-      <View style={styles.container}>
-        <View style={{height:200, backgroundColor:'skyblue'}}>
-          <Text style={styles.textHeader}>
+      <Layout style={styles.Container}>
+        <Card style={styles.flexbox} header = {Header} footer = {Footer}>
+          {/* <Text style={styles.textHeader}>
           Hello {first_name}!
-          </Text>
+          </Text> */}
           <Text style={styles.text}>
           Users name: {first_name} {last_name}
           </Text>
           <Text style={styles.text}>
           Users Email address: {email}
           </Text>
-
-          <TouchableOpacity style={styles.buttonUpdate}>
-              <Button
-              title="Update User" 
-              onPress={() => navigation.navigate("AccountUpdate")}
-              />
-            </TouchableOpacity>
-
-          <TouchableOpacity style={styles.buttonLogOut}>
-              <Button style={{alignContent: 'center'}}
-              title="Log Out" 
-              onPress={sendlogout}
-              />
-            </TouchableOpacity>
-        </View>
-
-          <TouchableOpacity style={styles.button}>
-              <Button
-              title="Home Screen" 
-              onPress={() => navigation.navigate("Home")}
-              />
-            </TouchableOpacity>
+        </Card>
+        <TouchableOpacity >
+    <Button style={styles.button}
+      size = 'small'
+      onPress={() => navigation.navigate("Home")}>
+        Home
+      </Button>
+    </TouchableOpacity>
+          
             
            
-      </View>
+      </Layout>
+    
+      
+    
   );
 }
 
 
   const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column', 
-      alignItems: 'stretch',
-      // width: '100%',
-      // height: '100%',
-      // marginTop: StatusBar.currentHeight || 0,
-      //marginTop: Constants.statusBarHeight,
+
+    Container:{
+      flexDirection: 'column',
+      justifyContent: 'center',
+      backgroundColor: '#F7F9FC'
+  },
+
+  flexbox:{
+    height: 250, 
+    borderRadius: 10,
+    backgroundColor: '#EDF1F7',
+    borderColor: '#1A2138'
     },
-    textHeader: {
-      fontSize: 30,
-      textAlign: 'center',
-      fontWeight: 'bold',
-      //marginTop: 10,
-      borderRadius: 10
+
+    footerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
+    },
+    headerContainer: {
+      flexDirection: 'row',
+      justifyContent: 'center',
     },
     text: {
       fontSize: 15,
@@ -174,21 +202,15 @@ function Account ({ route }) {
     },
 
     button:{
-      width:'25%',
-      //marginTop: 15,
-      alignContent: 'center'
-    },
-    buttonUpdate:{
-      width:'55%',
-      marginTop: 10,
-      alignContent: 'center'
-    },
-    buttonLogOut:{
-      width:'25%',
-      marginTop: -35,
-      marginLeft:300,
-      alignContent: 'center'
-    }
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      margin: 1,
+      backgroundColor: '#151A30',
+      borderColor: '#151A30',
+
+  },
+
   });
   
 export default Account

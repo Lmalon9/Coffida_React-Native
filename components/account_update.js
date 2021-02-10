@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
-import { Text, ToastAndroid, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { ToastAndroid, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -94,27 +95,28 @@ function AccountUpdate(){
 
     return (
 
-        <View>
-            <TextInput 
+        <Layout>
+            <Input 
             value = {first_name}
             onChangeText = {text => setFirstName(text)}
             />
-            <TextInput
+            <Input
             value = {last_name}
             onChangeText = {text => setLastName(text)}
             />
-            <TextInput
+            <Input
             value = {email}
             onChangeText = {text => setEmail(text)}            />
-            <TextInput
+            <Input
             onChangeText = {text => setPassword(text)}            />
             <TouchableOpacity style={styles.button}>
               <Button
+              size = 'small'
               title="Update" 
               onPress={send_update}
               />
             </TouchableOpacity>
-        </View>
+        </Layout>
     );
   }
   
@@ -124,6 +126,7 @@ function AccountUpdate(){
         width: '100%',
         height: '100%',
         marginTop: StatusBar.currentHeight || 0,
+        
         //marginTop: Constants.statusBarHeight,
       },
       text: {

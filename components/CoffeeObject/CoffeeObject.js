@@ -1,6 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
-import { Text, ToastAndroid, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import {ToastAndroid, StyleSheet, Image} from 'react-native';
+import { Card, Text, Button, Layout, List, Divider, Icon} from '@ui-kitten/components';
+
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -35,7 +37,7 @@ const CoffeeObject = ({ location }) => {
           })
           .then ((data) =>{
           ///const favs = data.favourite_locations;
-          console.log(JSON.stringify(favs, null, 4));
+          //console.log(JSON.stringify(favs, null, 4));
           const currentFavourites = (data.favourite_locations.filter
             (fav => fav.location_id === location.location_id).length) > 0;
          setFavourite(currentFavourites);
@@ -71,28 +73,64 @@ const CoffeeObject = ({ location }) => {
               .catch( (message) => { console.log("ERROR" + message)})
             
           }
+          
+          const Header = (props) => (
+            <Layout {...props} >
+            <Text category = 'h3'>
+            {location.location_name}
+            </Text>
+            <Text category = 's1'>
+            {location.location_town}
+            </Text>
+            <Button style= {styles.button} appearance='ghost' accessoryLeft={starIcon} size = 'medium' onPress={() => fav_location(location.location_id)}>
 
+            </Button>
+            </Layout>
+        )
+      
+          const Footer = (props) => (
+            <Layout {...props} >
+            <Text>
+            Overall Rating {location.avg_overall_rating}
+            </Text>
+            </Layout>
+        )
+        const starIcon = (props) => (
+          <Icon {...props} name='star'/>
+        );
+      
           return (
-            <TouchableHighlight onPress={() => navigation.navigate("CoffeeLocation",  {id: location.location_id})}>
-            <View style = {{height: 250, backgroundColor: 'skyblue', borderColor: 'blue', borderWidth: 2, elevation: 1, marginTop:1, borderRadius:10}}>
-              <Text>
-              {location.location_name}
-              {location.location_town}
-              {location.avg_overall_rating}
-              {location.avg_clenliness_rating}
-              {location.avg_price_rating}
-              {location.avg_quality_rating}
 
+            <Layout>
 
+            <Card style={styles.card} header = {Header} footer = {Footer} onPress={() => navigation.navigate("CoffeeLocation",  {id: location.location_id})}>
 
+            <Image
+            source={{uri:'https://media3.s-nbcnews.com/j/newscms/2019_33/2203981/171026-better-coffee-boost-se-329p_67dfb6820f7d3898b5486975903c2e51.fit-760w.jpg'}}
+            style={{height: 200, width: 400, alignContent: 'center', justifyContent: 'center',   alignItems: 'center'}} />
+            
 
-              </Text>
-              <Button title = 'Fav' onPress={() => fav_location(location.location_id)}>
-
-              </Button>
-
-            </View>
-            </TouchableHighlight>
+            </Card>
+            </Layout>
+            // </View>
+            // </TouchableHighlight>
           )
+          
 }
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+  },
+  card:{
+    backgroundColor: '#EDF1F7',
+    alignItems: 'center',
+
+
+  },
+  button:{
+  alignContent: 'center',
+  alignItems: 'center',
+  justifyContent: 'center'
+  }
+});
 export default CoffeeObject

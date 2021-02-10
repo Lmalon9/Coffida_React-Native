@@ -1,7 +1,8 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
-import { Text, ToastAndroid, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, TouchableHighlight, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
+import { Card, Text, Button, Layout, List, Divider } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import CoffeeObject from'./CoffeeObject/CoffeeObject.js'
 
@@ -54,32 +55,33 @@ function CoffeeList (props) {
         }, []);
 
     //}
-      
 
           return (
 
-            <View style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
+            <Layout style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
               <Button
               title="Home Screen" 
               onPress={() => navigation.navigate("Home")}
               />
-                <FlatList style = {styles.container}
+                <List style = {styles.container}
                 data={locations}
                 keyExtractor={item => item.location_id.toString()}
+                ItemSeparatorComponent={Divider}
                 renderItem={({ item }) => (
                   <CoffeeObject location = {item} />
                   )}/>
 
-            </View>
+            </Layout>
           )
                 };
 
       const styles = StyleSheet.create({
         container: {
-          width: '100%',
-          height: '100%',
-          marginTop: StatusBar.currentHeight || 0,
-          //marginTop: Constants.statusBarHeight,
+          flexDirection: 'column',
+        },
+        card:{
+          backgroundColor: '#EDF1F7',
+
         },
         text: {
           fontSize: 30,
@@ -87,21 +89,8 @@ function CoffeeList (props) {
           fontWeight: 'bold',
           marginTop: 10,
         },
-        textboxUser: {
-          borderWidth: 0.5,
-          borderColor: 'black',
-          width: '70%'
-          
-        },
-        textboxPass: {
-          
-          borderWidth: 0.5,
-          borderColor: 'black',
-          width: '70%'
-        },
         button:{
-          width:'25%',
-          marginTop: 10,
-        }
+          width: 10
+                }
       });
       export default CoffeeList

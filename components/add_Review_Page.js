@@ -1,6 +1,5 @@
 import React, {Component, useState} from 'react';
-import { ToastAndroid, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
-import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
+import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -44,51 +43,39 @@ function Login(){
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
-  function alert(){
-    Alert.alert('Email: '+ email + ' Password: ' + password)
-    console.log(email, password)
-  }
-
     return (
-      <Layout style={styles.container}>
+      <View style={styles.container}>
           <Text style={styles.text}>
-            Email:
+            Overall Rating
           </Text>
-          <Input placeholder = 'Email' style={styles.textboxUser}
+          <TextInput placeholder = 'Email' style={styles.textboxUser}
           onChangeText = {text => setEmail(text)}
           />
           <Text style={styles.text}>
-            Password:
+            Price Rating
           </Text>
-          <Input 
-          placeholder = 'Password' style={styles.textboxPass}
+          <TextInput placeholder = 'Password' style={styles.textboxPass}
           onChangeText = {text => setPassword(text)}
           secureTextEntry = {true}
           />  
-          <TouchableOpacity >
-          <Button 
-          size = 'small'
-          style={styles.button}
-          onPress = {sendlogin}
-          >
-          Login
-          </Button>
+          <TouchableOpacity on style={styles.button}>
+          <Button title = 'Login' 
+          
+           onPress = {sendlogin}
+          />
           </TouchableOpacity>
 
           <Text style={styles.textSignUp}>
           Dont Have an Account?
           </Text>
 
-          <TouchableOpacity >
+          <TouchableOpacity on style={styles.button}>
           <Button 
-          size = 'small'
-          style={styles.button}
+          title = 'Sign Up' 
           onPress={() => navigation.navigate('SignUp')}
-          >
-          Sign Up
-          </Button>
+          />
           </TouchableOpacity>
-      </Layout>
+      </View>
 
     );
   }
@@ -98,8 +85,13 @@ function Login(){
     container: {
       width: '100%',
       height: '100%',
-      textAlign: 'center',
-      alignItems: 'center',
+      marginTop:'5%',
+      marginLeft: '15%',
+      textAlign: 'center'
+      
+      
+      //marginTop: StatusBar.currentHeight || 0,
+      //marginTop: Constants.statusBarHeight,
     },
     text: {
       fontSize: 16,
@@ -113,17 +105,21 @@ function Login(){
     
     },
     textboxUser: {
+      borderWidth: 0.5,
+      borderColor: 'black',
       width: '70%'
       
     },
     textboxPass: {
+      
+      borderWidth: 0.5,
+      borderColor: 'black',
       width: '70%'
     },
     button:{
-      marginTop: 10,
-
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
+      width:'25%',
+      marginTop:'5%',
+      marginLeft:'20%',
     }
   });
 

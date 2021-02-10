@@ -1,8 +1,10 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
-import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { StyleSheet, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Card, Text, Button, Layout, List, Divider, Icon, ListItem} from '@ui-kitten/components';
+import CoffeeLocationObject from './CoffeeObject/CoffeeLocationObject.js'
 
 
 function coffeeLocation ({ route }) {
@@ -45,18 +47,65 @@ function coffeeLocation ({ route }) {
           }
         });
 
-    return (
-        <View style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
-            <Text>
-                    {locations.location_name}
-                    {locations.location_town}
-                    {locations.avg_overall_rating}
-                    {locations.avg_clenliness_rating}
-                    {locations.avg_price_rating}
-                    {locations.avg_quality_rating}
+        const Header = (props) => (
+          <Layout {...props} >
+          <Text category = 'h3'>
+          {locations.location_name}
+          </Text>
+          <Text category = 's1'>
+          {locations.location_town}
+          </Text>
+          <Text category = 'p1'>
+          {locations.longitude}, {locations.latitude}
+          </Text>
+          </Layout>
+      )
+    
+        const Footer = (props) => (
+          <Layout {...props} >
+          <Text category = 'c1'>
+          Overall Rating: {locations.avg_overall_rating}, 
+          Average Price Rating:{locations.avg_price_rating},  
+          Average Clenliness Rating: {locations.avg_clenliness_rating}, 
+          Average Quality Rating: {locations.avg_quality_rating},
+          </Text>
+          </Layout>
+      )
+     
 
-                    </Text>
-        </View>
+    return (
+      <Layout>
+        <Layout>
+          <Card header = {Header} footer = {Footer}>
+
+
+          </Card>
+        </Layout>
+
+        <Button>
+        Add A Review
+        </Button>
+
+        <List
+              data={locations.location_reviews}
+              keyExtractor={item => item.review_id.toString()}
+              ItemSeparatorComponent={Divider}
+              renderItem={({ item }) => (
+          <CoffeeLocationObject review = {item} />
+          )}/>
+
+      </Layout>
+        // <View style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
+        //     <Text>
+        //             {locations.location_name}
+        //             {locations.location_town}
+        //             {locations.avg_overall_rating}
+        //             {locations.avg_clenliness_rating}
+        //             {locations.avg_price_rating}
+        //             {locations.avg_quality_rating}
+
+        //             </Text>
+        // </View>
 
     )
 }
