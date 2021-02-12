@@ -37,5 +37,14 @@ const CoffeeLocationObject = ({ review }) => {
         </Layout>
     )
 }
-
+const styles = StyleSheet.create({
+    button:{
+        alignContent: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#151A30',
+        borderColor: '#151A30',
+  
+    },
+});
 export default CoffeeLocationObject

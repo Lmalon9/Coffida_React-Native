@@ -80,7 +80,9 @@ function AccountUpdate(){
           
         }
         else{
+          ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
+
         };
   
       })
@@ -95,26 +97,48 @@ function AccountUpdate(){
 
     return (
 
-        <Layout>
+        <Layout style={styles.container}>
+            <Text style={styles.text}>
+            First Name:
+            </Text>
             <Input 
+            style = {styles.textbox}
             value = {first_name}
             onChangeText = {text => setFirstName(text)}
             />
+            <Text style={styles.text}>
+            Last Name:
+            </Text>
             <Input
+            style = {styles.textbox}
             value = {last_name}
             onChangeText = {text => setLastName(text)}
             />
+            <Text style={styles.text}>
+            Email:
+            </Text>
             <Input
+            style = {styles.textbox}
+
             value = {email}
-            onChangeText = {text => setEmail(text)}            />
+            onChangeText = {text => setEmail(text)}            
+            />
+            <Text style={styles.text}>
+            Password:
+            </Text>
             <Input
-            onChangeText = {text => setPassword(text)}            />
-            <TouchableOpacity style={styles.button}>
+            style = {styles.textbox}
+            onChangeText = {text => setPassword(text)}
+            secureTextEntry = {true}
+            />
+            <TouchableOpacity>
               <Button
+              style={styles.button}
               size = 'small'
-              title="Update" 
               onPress={send_update}
-              />
+              >
+              Update
+              </Button>
             </TouchableOpacity>
         </Layout>
     );
@@ -125,31 +149,23 @@ function AccountUpdate(){
       container: {
         width: '100%',
         height: '100%',
-        marginTop: StatusBar.currentHeight || 0,
-        
-        //marginTop: Constants.statusBarHeight,
+        textAlign: 'center',
+        alignItems: 'center',
+        backgroundColor: '#F7F9FC',
+        justifyContent: 'center'
       },
       text: {
-        fontSize: 30,
-        textAlign: 'center',
-        fontWeight: 'bold',
-        marginTop: 10,
+        fontSize: 16,
+        marginTop: '5%',
       },
-      textboxUser: {
-        borderWidth: 0.5,
-        borderColor: 'black',
-        width: '70%'
-        
+      textbox: {
+        width: '70%'     
       },
-      textboxPass: {
-        
-        borderWidth: 0.5,
-        borderColor: 'black',
-        width: '70%'
-      },
+
       button:{
-        width:'25%',
         marginTop: 10,
-      }
+        backgroundColor: '#151A30',
+        borderColor: '#151A30',
+      },
     });
     export default AccountUpdate

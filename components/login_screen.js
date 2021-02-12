@@ -1,5 +1,5 @@
 import React, {Component, useState} from 'react';
-import { ToastAndroid, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { ToastAndroid, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -26,10 +26,12 @@ function Login(){
     .then ((res) => {
       if (res.status == 200)
       {
+        ToastAndroid.showWithGravity("Login Successful!", ToastAndroid.SHORT, ToastAndroid.CENTER)
         return res.json();
         
       }
       else{
+        ToastAndroid.showWithGravity("Login Unsuccessful, please check Email or Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
         throw 'failed';
       };
 
@@ -54,14 +56,14 @@ function Login(){
           <Text style={styles.text}>
             Email:
           </Text>
-          <Input placeholder = 'Email' style={styles.textboxUser}
+          <Input placeholder = 'Email' style={styles.textbox}
           onChangeText = {text => setEmail(text)}
           />
           <Text style={styles.text}>
             Password:
           </Text>
           <Input 
-          placeholder = 'Password' style={styles.textboxPass}
+          placeholder = 'Password' style={styles.textbox}
           onChangeText = {text => setPassword(text)}
           secureTextEntry = {true}
           />  
@@ -100,6 +102,9 @@ function Login(){
       height: '100%',
       textAlign: 'center',
       alignItems: 'center',
+      backgroundColor: '#F7F9FC',
+      justifyContent: 'center'
+
     },
     text: {
       fontSize: 16,
@@ -112,12 +117,9 @@ function Login(){
       marginHorizontal: '12%'
     
     },
-    textboxUser: {
+    textbox: {
       width: '70%'
       
-    },
-    textboxPass: {
-      width: '70%'
     },
     button:{
       marginTop: 10,

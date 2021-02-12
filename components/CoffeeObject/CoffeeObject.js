@@ -1,6 +1,7 @@
 import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
 import {ToastAndroid, StyleSheet, Image} from 'react-native';
+import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, List, Divider, Icon} from '@ui-kitten/components';
 
 import { useNavigation } from '@react-navigation/native'
@@ -36,8 +37,6 @@ const CoffeeObject = ({ location }) => {
             }
           })
           .then ((data) =>{
-          ///const favs = data.favourite_locations;
-          //console.log(JSON.stringify(favs, null, 4));
           const currentFavourites = (data.favourite_locations.filter
             (fav => fav.location_id === location.location_id).length) > 0;
          setFavourite(currentFavourites);
@@ -75,7 +74,7 @@ const CoffeeObject = ({ location }) => {
           }
           
           const Header = (props) => (
-            <Layout {...props} >
+            <Layout {...props} style={[props.style, styles.header]} >
             <Text category = 'h3'>
             {location.location_name}
             </Text>
@@ -93,6 +92,12 @@ const CoffeeObject = ({ location }) => {
             <Text>
             Overall Rating {location.avg_overall_rating}
             </Text>
+            <Rating
+            startingValue={location.avg_overall_rating}
+            imageSize={20}
+            ratingCount={5}
+            readonly
+            />
             </Layout>
         )
         const starIcon = (props) => (
@@ -107,7 +112,11 @@ const CoffeeObject = ({ location }) => {
 
             <Image
             source={{uri:'https://media3.s-nbcnews.com/j/newscms/2019_33/2203981/171026-better-coffee-boost-se-329p_67dfb6820f7d3898b5486975903c2e51.fit-760w.jpg'}}
-            style={{height: 200, width: 400, alignContent: 'center', justifyContent: 'center',   alignItems: 'center'}} />
+            style={{height: 200, width: 400, 
+            alignContent: 'center', 
+            justifyContent: 'center',   
+            alignItems: 'center'
+            }} />
             
 
             </Card>
@@ -120,6 +129,11 @@ const CoffeeObject = ({ location }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
+
+  },
+  header:{
+    alignContent: 'stretch',
+    alignItems: 'stretch'
   },
   card:{
     backgroundColor: '#EDF1F7',

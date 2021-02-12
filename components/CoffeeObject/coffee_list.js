@@ -2,15 +2,19 @@ import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
 import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import { Card, Text, Button, Layout, List, Divider } from '@ui-kitten/components';
+import { Card, Text, Button, Layout, List, Divider, Icon } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeObject from'./CoffeeObject/CoffeeObject.js'
+import CoffeeObject from'./CoffeeObject.js'
 
 
 function CoffeeList (props) {
     
     const [locations, setLocations] = useState([]);
     const navigation = useNavigation();
+
+    const HomeIcon = (props) => (
+      <Icon {...props} name='house'/>
+    );
 
     useEffect(() => {
         navigation.addListener('focus', () => {
@@ -60,9 +64,12 @@ function CoffeeList (props) {
 
             <Layout style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
               <Button
-              title="Home Screen" 
+              size = 'small'
+              style = {styles.button}
               onPress={() => navigation.navigate("Home")}
-              />
+              >
+              Home
+              </Button>
                 <List style = {styles.container}
                 data={locations}
                 keyExtractor={item => item.location_id.toString()}
@@ -78,6 +85,7 @@ function CoffeeList (props) {
       const styles = StyleSheet.create({
         container: {
           flexDirection: 'column',
+
         },
         card:{
           backgroundColor: '#EDF1F7',
@@ -90,7 +98,12 @@ function CoffeeList (props) {
           marginTop: 10,
         },
         button:{
-          width: 10
-                }
+          alignContent: 'center',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: '#151A30',
+          borderColor: '#151A30',
+    
+      },
       });
       export default CoffeeList

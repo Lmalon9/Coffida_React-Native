@@ -19,8 +19,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#F7F9FC'
-        
-
     },
     flexbox:{
         height: 150, 

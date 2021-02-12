@@ -74,7 +74,7 @@ function coffeeLocation ({ route }) {
      
 
     return (
-      <Layout>
+      <Layout style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
         <Layout>
           <Card header = {Header} footer = {Footer}>
 
@@ -82,17 +82,18 @@ function coffeeLocation ({ route }) {
           </Card>
         </Layout>
 
-        <Button>
+        <Button style={styles.button} onPress={() => navigation.navigate("AddReview",  {id: locations.location_id})}s>
         Add A Review
         </Button>
 
-        <List
-              data={locations.location_reviews}
-              keyExtractor={item => item.review_id.toString()}
-              ItemSeparatorComponent={Divider}
-              renderItem={({ item }) => (
-          <CoffeeLocationObject review = {item} />
-          )}/>
+        <List 
+        style = {styles.container}
+        data={locations.location_reviews}
+        keyExtractor={item => item.review_id.toString()}
+        ItemSeparatorComponent={Divider}
+        renderItem={({ item }) => (
+        <CoffeeLocationObject review = {item} />
+        )}/>
 
       </Layout>
         // <View style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
@@ -106,8 +107,20 @@ function coffeeLocation ({ route }) {
 
         //             </Text>
         // </View>
-
     )
 }
-    
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'column',
+
+  },
+  button:{
+      alignContent: 'center',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#151A30',
+      borderColor: '#151A30',
+
+  },
+});    
 export default coffeeLocation

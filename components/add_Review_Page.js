@@ -1,24 +1,34 @@
 import React, {Component, useState} from 'react';
-import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
+import {Rating} from 'react-native-elements';
+import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-function Login(){
-  const [email, setEmail] = useState(''); // initialize state
-  const [password, setPassword] = useState(''); // initialize state
+function ReviewPost({ route }){
+  const [ovr_rating, setOvr_rating] = useState(0); // initialize state
+  const [ovr_price, setOvr_Price] = useState(0); // initialize state
+  const [quality_rating, setQuality_rating] = useState(0); // initialize state
+  const [clean_rating, setClean_rating] = useState(0); // initialize state
+  const [review_body, setReview_body] = useState(''); // initialize state
   const navigation = useNavigation()
 
-  const sendlogin = async () => {
-    fetch("http://10.0.2.2:3333/api/1.0.0/user/login",
+  const sendReview = async () => {
+    var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.id}/review`,
     {
       method: 'post',
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "X-Authorization": tokenlog,
       },
       body: JSON.stringify( {
-        email: email,
-        password: password,
+        overall_rating: ovr_rating,
+        price_rating: ovr_price,
+        quality_rating: quality_rating,
+        clenliness_rating: clean_rating,
+        review_body: review_body,
       }),
     })
 
@@ -36,46 +46,83 @@ function Login(){
     .then (async (data) => {
 
       console.log(data);
-      await AsyncStorage.setItem('@session_token', JSON.stringify(data));
-      navigation.navigate("Home")
 
     })
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
     return (
-      <View style={styles.container}>
+      <Layout style={styles.container}>
           <Text style={styles.text}>
-            Overall Rating
+          Overall
           </Text>
-          <TextInput placeholder = 'Email' style={styles.textboxUser}
-          onChangeText = {text => setEmail(text)}
+          <Rating style ={styles.rating}
+          showRating 
+          fractions={0} 
+          startingValue= {3}
+          imageSize={30}
+          ratingCount={5}
+          onFinishRating={setOvr_rating}
           />
+          {/* <Input placeholder = 'Overall Rating'
+          onChangeText ={integer => setOvr_rating(parseInt(integer))}
+          /> */}
           <Text style={styles.text}>
-            Price Rating
+          Price
           </Text>
-          <TextInput placeholder = 'Password' style={styles.textboxPass}
-          onChangeText = {text => setPassword(text)}
-          secureTextEntry = {true}
-          />  
-          <TouchableOpacity on style={styles.button}>
-          <Button title = 'Login' 
-          
-           onPress = {sendlogin}
+          <Rating
+          showRating 
+          fractions={0} 
+          startingValue= {3}
+          imageSize={30}
+          ratingCount={5}
+          onFinishRating={setOvr_Price}
           />
-          </TouchableOpacity>
-
-          <Text style={styles.textSignUp}>
-          Dont Have an Account?
+          {/* <Input placeholder = 'Price Rating'
+          onChangeText ={integer => setOvr_Price(parseInt(integer))}
+          />   */}
+          <Text style={styles.text}>
+          Quality
           </Text>
-
-          <TouchableOpacity on style={styles.button}>
-          <Button 
-          title = 'Sign Up' 
-          onPress={() => navigation.navigate('SignUp')}
+          <Rating
+          showRating 
+          fractions={0} 
+          startingValue= {3}
+          imageSize={30}
+          ratingCount={5}
+          onFinishRating={setQuality_rating}
           />
+          {/* <Input placeholder = 'Quality Rating'
+          onChangeText ={integer => setQuality_rating(parseInt(integer))}
+          /> */}
+          <Text style={styles.text}>
+          Clenliness
+          </Text>
+          <Rating
+          showRating 
+          fractions={0} 
+          startingValue= {3}
+          imageSize={30}
+          ratingCount={5}
+          onFinishRating={setClean_rating}
+          />
+          {/* <Input placeholder = 'Clenliness Rating'
+          onChangeText ={integer => setClean_rating(parseInt(integer))}
+          /> */}
+          <Input placeholder = 'Review Body'
+          multiline = {true}
+          textStyle={{ minHeight: 64 }}
+          onChangeText = {text => setReview_body(text)} 
+          />
+          <TouchableOpacity on style={styles.button}>
+          <Button
+          size = 'small'
+          onPress = {sendReview}
+          >
+          Add Review
+          </Button>
           </TouchableOpacity>
-      </View>
+      </Layout>
 
     );
   }
@@ -85,13 +132,14 @@ function Login(){
     container: {
       width: '100%',
       height: '100%',
-      marginTop:'5%',
-      marginLeft: '15%',
-      textAlign: 'center'
-      
-      
-      //marginTop: StatusBar.currentHeight || 0,
-      //marginTop: Constants.statusBarHeight,
+      textAlign: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F7F9FC',
+      justifyContent: 'center'
+
+    },
+    rating: {
+      backgroundColor: '#F7F9FC'
     },
     text: {
       fontSize: 16,
@@ -104,24 +152,17 @@ function Login(){
       marginHorizontal: '12%'
     
     },
-    textboxUser: {
-      borderWidth: 0.5,
-      borderColor: 'black',
+    textbox: {
       width: '70%'
       
-    },
-    textboxPass: {
-      
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
     },
     button:{
-      width:'25%',
-      marginTop:'5%',
-      marginLeft:'20%',
+      marginTop: 10,
+
+      backgroundColor: '#151A30',
+      borderColor: '#151A30',
     }
   });
 
   
-  export default Login;
+  export default ReviewPost;

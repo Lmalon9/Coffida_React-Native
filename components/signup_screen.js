@@ -1,5 +1,7 @@
 import React, {Component, useState} from 'react';
-import { Text, View, TextInput, Button, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
+import { StyleSheet, Alert, TouchableOpacity, ToastAndroid} from 'react-native';
+import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
+
 import { useNavigation } from '@react-navigation/native'
 
 
@@ -30,11 +32,12 @@ function SignUp(){
       .then ((res) => {
         if (res.status == 201)
         {
-          
+          ToastAndroid.showWithGravity("SignUp Successful!", ToastAndroid.SHORT, ToastAndroid.CENTER)
           return res.json();
           
         }
         else{
+          ToastAndroid.showWithGravity("SignUp Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
         };
 
@@ -54,42 +57,47 @@ function SignUp(){
   }
 
     return (
-      <View style={styles.container}>
+      <Layout style={styles.container}>
           <Text style={styles.text}>
             First Name:
           </Text>
-          <TextInput placeholder = 'First Name' style={styles.textboxUser}
+          <Input placeholder = 'First Name' style={styles.textbox}
           onChangeText = {text => setFirstName(text)}
           />
           <Text style={styles.text}>
             Last Name:
           </Text>
-          <TextInput placeholder = 'Last Name' style={styles.textboxPass}
+          <Input placeholder = 'Last Name' style={styles.textbox}
           onChangeText = {text => setLastName(text)}
           
           />  
           <Text style={styles.text}>
             Email:
           </Text>
-          <TextInput placeholder = 'Email:' style={styles.textboxPass}
+          <Input placeholder = 'Email:' style={styles.textbox}
           onChangeText = {text => setEmail(text)}
+          secureTextEntry = {true}
+
           
           />  
           <Text style={styles.text}>
             Password:
           </Text>
-          <TextInput placeholder = 'Password:' style={styles.textboxPass}
+          <Input placeholder = 'Password:' style={styles.textbox}
           onChangeText = {text => setPassword(text)}
           secureTextEntry = {true}
           />  
 
-          <TouchableOpacity on style={styles.button}>
-          <Button title = 'Create Account' 
-          
-           onPress = {sendSignUp}
-          />
+          <TouchableOpacity>
+          <Button 
+          size = 'small'
+          style={styles.button}
+          onPress = {sendSignUp}
+          >
+          Sign Up
+          </Button>
           </TouchableOpacity>
-      </View>
+      </Layout>
 
     );
   }
@@ -99,13 +107,11 @@ function SignUp(){
     container: {
       width: '100%',
       height: '100%',
-      marginTop:'5%',
-      marginLeft: '15%',
-      textAlign: 'center'
-      
-      
-      //marginTop: StatusBar.currentHeight || 0,
-      //marginTop: Constants.statusBarHeight,
+      textAlign: 'center',
+      alignItems: 'center',
+      backgroundColor: '#F7F9FC',
+      justifyContent: 'center'
+
     },
     text: {
       fontSize: 16,
@@ -118,22 +124,16 @@ function SignUp(){
       marginHorizontal: '12%'
     
     },
-    textboxUser: {
-      borderWidth: 0.5,
-      borderColor: 'black',
+    textbox: {
       width: '70%'
       
     },
-    textboxPass: {
-      
-      borderWidth: 0.5,
-      borderColor: 'black',
-      width: '70%'
-    },
+   
     button:{
-      width:'50%',
-      marginTop:'5%',
-      marginLeft:'10%',
+      marginTop: 10,
+
+      backgroundColor: '#151A30',
+      borderColor: '#151A30',
     }
   });
 
