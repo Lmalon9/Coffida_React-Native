@@ -47,21 +47,7 @@ useEffect(() => {
   return (
 
     <NotLoggedIn />
-  //   <Layout style={styles.container}>
-  //     <Layout style={styles.flexbox}>
-  //        <Text style={styles.text}>
-  //        Welcome To Coffida 
-  //        </Text>
-          
-  //         <Button
-  //         title = 'Login'
-          
-  //         onPress={() => navigation.navigate("Login")}
-  //        />
-          
-  //    </Layout>
-  //    </Layout>
-  // );
+
   )
 }
 

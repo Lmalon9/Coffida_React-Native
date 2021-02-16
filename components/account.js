@@ -63,7 +63,7 @@ function Account ({ route }) {
 
     })
     .then ( (data) => {
-      console.log(data);
+      console.log(JSON.stringify(data, null, 4));
       setFirstName(data.first_name);
       setLastName(data.last_name);
       setEmail(data.email);

@@ -4,30 +4,26 @@ import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Card, Text, Button, Layout, List, Divider, Icon } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeObject from'./CoffeeObject.js'
+import UserReviewObject from './UserReviewObject.js'
 
 
-function CoffeeList (props) {
+function UserReviewList (props) {
     
-    const [locations, setLocations] = useState([]);
+    const [reviews, setReviews] = useState([]);
     const navigation = useNavigation();
-
-    const HomeIcon = (props) => (
-      <Icon {...props} name='house'/>
-    );
 
     useEffect(() => {
         navigation.addListener('focus', () => {
-            getAllCoffeeLoc();
+            getAllUSRreview();
             //checkFavs();
           }
           )
-          async function getAllCoffeeLoc(){
-            var id = 1;
+          async function getAllUSRreview(){
+            var Id = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
             var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
             // for (id = 1; id < 9; id++)
             // {
-            fetch(`http://10.0.2.2:3333/api/1.0.0/find/`,
+            fetch(`http://10.0.2.2:3333/api/1.0.0/user/${Id}`,
             {
               method: 'get',
               headers: {
@@ -47,32 +43,32 @@ function CoffeeList (props) {
             })
             .then ( (data) => {
 
-            //console.log(JSON.stringify(data, null, 4));
-            setLocations(data)
-            
+            setReviews(data.reviews)
+            console.log(JSON.stringify(data, null, 4));
+
             })
             .catch( (message) => { console.log("ERROR" + message)})
           
         }
 
     //}
-        }, []);
+        });
 
     //}
 
           return (
 
             <Layout style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
-              <Button style={styles.button} onPress={() => navigation.navigate("UsersReviews")}>
-              Edit Your Reviews
-              </Button>
                 <List style = {styles.container}
-                data={locations}
-                keyExtractor={item => item.location_id.toString()}
+                data={reviews}
+                keyExtractor={item => item.review.review_id.toString()}
                 ItemSeparatorComponent={Divider}
                 renderItem={({ item }) => (
-                  <CoffeeObject location = {item} />
-                  )}/>
+                
+                  <UserReviewObject review = {item} 
+                  />
+                  )}
+                  />
 
             </Layout>
           )
@@ -102,4 +98,4 @@ function CoffeeList (props) {
     
       },
       });
-      export default CoffeeList
+export default UserReviewList

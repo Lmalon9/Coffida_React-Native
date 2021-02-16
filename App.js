@@ -19,6 +19,8 @@ import AccountUpdate from './components/account_update.js'
 import CoffeeList from './components/CoffeeObject/coffee_list.js'
 import coffeeLocation from './components/coffee_location.js'
 import ReviewPost from './components/add_Review_Page.js'
+import UserReviewList from './components/users_reviews.js'
+import ReviewUpdate from './components/UserUpdateReview.js'
 
 const Stack = createStackNavigator();
 
@@ -43,6 +45,8 @@ class App extends Component {
      <Stack.Screen name="CoffeeList" component={CoffeeList} />
      <Stack.Screen name="CoffeeLocation" component={coffeeLocation} />
      <Stack.Screen name="AddReview" component={ReviewPost} />
+     <Stack.Screen name="UsersReviews" component={UserReviewList} />
+     <Stack.Screen name="Update User Review" component={ReviewUpdate} />
      <Stack.Screen name="Login" component={Login} />
      <Stack.Screen name="SignUp" component={SignUp} />
      <Stack.Screen name="Account" component={Account} />

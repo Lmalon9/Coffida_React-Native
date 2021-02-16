@@ -1,4 +1,5 @@
-import React, {Component, useState} from 'react';
+import 'react-native-gesture-handler';
+import React, {Component, useState, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
@@ -6,19 +7,30 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 
-function ReviewPost({ route }){
-  const [ovr_rating, setOvr_rating] = useState(0); // initialize state
-  const [ovr_price, setOvr_Price] = useState(0); // initialize state
-  const [quality_rating, setQuality_rating] = useState(0); // initialize state
-  const [clean_rating, setClean_rating] = useState(0); // initialize state
-  const [review_body, setReview_body] = useState(''); // initialize state
+function ReviewUpdate({ route }){
+  const [ovr_rating, setOvr_rating] = useState(route.params.overall_rating); // initialize state
+  const [ovr_price, setOvr_Price] = useState(route.params.price_rating); // initialize state
+  const [quality_rating, setQuality_rating] = useState(route.params.quality_rating); // initialize state
+  const [clean_rating, setClean_rating] = useState(route.params.clenliness_rating); // initialize state
+  const [review_body, setReview_body] = useState(route.params.review_body); // initialize state
+
+  //const [review_ID, setReview_ID] = useState({review: review.params.review.review.review_id})
   const navigation = useNavigation()
 
-  const sendReview = async () => {
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+        console.log(route.params.review_Location)
+        console.log(route.params.review_ID)
+    }
+    )
+});
+    
+
+  const updateReview = async () => {
     var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.id}/review`,
+    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.review_Location}/review/${route.params.review_ID}`,
     {
-      method: 'post',
+      method: 'patch',
       headers: {
         "Content-Type": "application/json",
         "X-Authorization": tokenlog,
@@ -33,9 +45,9 @@ function ReviewPost({ route }){
     })
 
     .then ((res) => {
-      if (res.status == 201)
+      if (res.status == 200)
       {
-        return res.json();
+        return;
         
       }
       else{
@@ -43,11 +55,7 @@ function ReviewPost({ route }){
       };
 
     })
-    .then (async (data) => {
 
-      console.log(data);
-
-    })
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
@@ -59,7 +67,7 @@ function ReviewPost({ route }){
           <Rating style ={styles.rating}
           showRating 
           fractions={0} 
-          startingValue= {0}
+          startingValue= {ovr_rating}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setOvr_rating}
@@ -73,7 +81,7 @@ function ReviewPost({ route }){
           <Rating
           showRating 
           fractions={0} 
-          startingValue= {0}
+          startingValue= {ovr_price}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setOvr_Price}
@@ -87,7 +95,7 @@ function ReviewPost({ route }){
           <Rating
           showRating 
           fractions={0} 
-          startingValue= {0}
+          startingValue= {quality_rating}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setQuality_rating}
@@ -101,7 +109,7 @@ function ReviewPost({ route }){
           <Rating
           showRating 
           fractions={0} 
-          startingValue= {0}
+          startingValue = {clean_rating}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setClean_rating}
@@ -109,7 +117,8 @@ function ReviewPost({ route }){
           {/* <Input placeholder = 'Clenliness Rating'
           onChangeText ={integer => setClean_rating(parseInt(integer))}
           /> */}
-          <Input placeholder = 'Review Body'
+          <Input 
+          value = {review_body}
           multiline = {true}
           textStyle={{ minHeight: 64 }}
           onChangeText = {text => setReview_body(text)} 
@@ -117,9 +126,9 @@ function ReviewPost({ route }){
           <TouchableOpacity on style={styles.button}>
           <Button
           size = 'small'
-          onPress = {sendReview}
+          onPress = {updateReview}
           >
-          Add Review
+          Update Review
           </Button>
           </TouchableOpacity>
       </Layout>
@@ -134,12 +143,11 @@ function ReviewPost({ route }){
       height: '100%',
       textAlign: 'center',
       alignItems: 'center',
-      backgroundColor: '#F7F9FC',
       justifyContent: 'center'
 
     },
     rating: {
-      backgroundColor: '#F7F9FC'
+      //backgroundColor: '#F7F9FC'
     },
     text: {
       fontSize: 16,
@@ -157,12 +165,12 @@ function ReviewPost({ route }){
       
     },
     button:{
-      marginTop: 10,
-
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
+    flexDirection: 'column',
+    marginTop: 10,
+    backgroundColor: '#151A30',
+    borderColor: '#151A30',
     }
   });
 
   
-  export default ReviewPost;
+  export default ReviewUpdate;

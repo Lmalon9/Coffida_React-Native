@@ -3,7 +3,6 @@ import React, { Component, useEffect, useState } from 'react';
 import {ToastAndroid, StyleSheet, Image} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, List, Divider, Icon} from '@ui-kitten/components';
-
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -75,7 +74,7 @@ const CoffeeObject = ({ location }) => {
           
           const Header = (props) => (
             <Layout {...props} style={[props.style, styles.header]} >
-            <Text category = 'h3'>
+            <Text category = 'h2'>
             {location.location_name}
             </Text>
             <Text category = 's1'>

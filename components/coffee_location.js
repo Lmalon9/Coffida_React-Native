@@ -82,7 +82,7 @@ function coffeeLocation ({ route }) {
           </Card>
         </Layout>
 
-        <Button style={styles.button} onPress={() => navigation.navigate("AddReview",  {id: locations.location_id})}s>
+        <Button style={styles.button} onPress={() => navigation.navigate("AddReview",  {id: locations.location_id})}>
         Add A Review
         </Button>
 
@@ -92,7 +92,7 @@ function coffeeLocation ({ route }) {
         keyExtractor={item => item.review_id.toString()}
         ItemSeparatorComponent={Divider}
         renderItem={({ item }) => (
-        <CoffeeLocationObject review = {item} />
+        <CoffeeLocationObject review = {item} location = {locations}/>
         )}/>
 
       </Layout>
