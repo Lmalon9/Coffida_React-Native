@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
     alignItems: 'stretch'
   },
   card:{
-    backgroundColor: '#EDF1F7',
+    //backgroundColor: '#EDF1F7',
     alignItems: 'center',
 
 

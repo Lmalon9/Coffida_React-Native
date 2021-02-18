@@ -12,16 +12,30 @@ function CoffeeList (props) {
     const [locations, setLocations] = useState([]);
     const navigation = useNavigation();
 
-    const HomeIcon = (props) => (
-      <Icon {...props} name='house'/>
-    );
-
     useEffect(() => {
         navigation.addListener('focus', () => {
-            getAllCoffeeLoc();
+            checkLoggedIn();
+            //getAllCoffeeLoc();
             //checkFavs();
           }
           )
+
+        async function checkLoggedIn(){
+            try{
+            const value = await AsyncStorage.getItem("@session_token");
+            if (value == null){
+              navigation.navigate("Login")
+            }
+            else{
+              //navigation.navigate("Account")
+              getAllCoffeeLoc();
+              
+            }
+          }
+          catch (error){
+      
+          }
+          }
           async function getAllCoffeeLoc(){
             var id = 1;
             var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -63,6 +77,9 @@ function CoffeeList (props) {
           return (
 
             <Layout style = {{flex: 1, flexDirection: 'column', alignItems: 'stretch'}}>
+              <Button style={styles.button} onPress={() => navigation.navigate("Search")}>
+              Search
+              </Button>
               <Button style={styles.button} onPress={() => navigation.navigate("UsersReviews")}>
               Edit Your Reviews
               </Button>

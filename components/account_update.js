@@ -4,6 +4,7 @@ import { ToastAndroid, StyleSheet, Alert, TouchableOpacity, NativeModules, Statu
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -12,6 +13,7 @@ function AccountUpdate(){
     const [last_name, setLastName] = useState(''); // initialize state
     const [email, setEmail] = useState(''); // initialize state
     const [password, setPassword] = useState(''); // initialize state
+    const isValid = useState(null)
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -96,8 +98,10 @@ function AccountUpdate(){
     }
 
     return (
-
+      
         <Layout style={styles.container}>
+          <ScrollView style ={{alignSelf:'center', width: '100%', height:'100%', margin: 20}} 
+          contentContainerStyle={{justifyContent:'center', alignItems:'center'}}>
             <Text style={styles.text}>
             First Name:
             </Text>
@@ -128,6 +132,11 @@ function AccountUpdate(){
             </Text>
             <Input
             style = {styles.textbox}
+            pattern = {[
+              '^.{8,}$', //min 8 characters
+              '(?=.*\\d)', //number required
+              '(?=,*[A-Z])', //upercase letter
+            ]}
             onChangeText = {text => setPassword(text)}
             secureTextEntry = {true}
             />
@@ -140,7 +149,9 @@ function AccountUpdate(){
               Update
               </Button>
             </TouchableOpacity>
+            </ScrollView> 
         </Layout>
+
     );
   }
   
@@ -151,7 +162,7 @@ function AccountUpdate(){
         height: '100%',
         textAlign: 'center',
         alignItems: 'center',
-        backgroundColor: '#F7F9FC',
+        //backgroundColor: '#F7F9FC',
         justifyContent: 'center'
       },
       text: {

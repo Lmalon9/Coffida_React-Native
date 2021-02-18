@@ -40,7 +40,7 @@ function ReviewUpdate({ route }){
         price_rating: ovr_price,
         quality_rating: quality_rating,
         clenliness_rating: clean_rating,
-        review_body: review_body,
+        review_body: review_body.replace(/tea|cakes|cake|pastry|pastries/gi, '***'),
       }),
     })
 

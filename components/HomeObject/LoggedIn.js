@@ -18,11 +18,6 @@ function LoggedIn({ id }){
         onPress={() => navigation.navigate("Account", {userId: id})}>
         Account
         </Button>
-        <Button style={styles.button} 
-        size = 'small' 
-        onPress={() => navigation.navigate("CoffeeList")}>
-        List
-        </Button>
         </Layout>
     )
 

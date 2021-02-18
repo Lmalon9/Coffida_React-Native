@@ -76,10 +76,36 @@ const CoffeeLocationObject = ({ review, location }) => {
               .catch( (message) => { console.log("ERROR" + message)})
             
           }
+        
+        async function review_photo(location_id, review_id){
+            fetch(`http://10.0.2.2:3333/api/1.0.0/location/${location_id}/review/${review_id}/photo`,
+            {
+                method: 'get',
+            })
+        .then ((res) => {
+            if (res.status === 200)
+            {
+                return res.json();
+            }
+            else
+            {
+                throw 'failed';
+            };
+
+        })
+        .then ((data) => {
+            
+            return data
+
+        })
+        .catch( (message) => { console.log("ERROR" + message)})
+
+        }
     
 
     const Header = (props) => (
         <Layout {...props}>
+            
             <Button style={styles.button} >
             Like
             </Button>
@@ -149,7 +175,7 @@ const CoffeeLocationObject = ({ review, location }) => {
         <Layout>
 
         <Card footer = {Footer}>
-
+        <Image source={{uri:`data:image/png;base64,${review_photo(location.location_id, review.review_id)}` }}/>
         <Text>
             {review.review_body}
         </Text>   

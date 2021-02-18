@@ -1,3 +1,4 @@
+import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
@@ -28,7 +29,7 @@ function ReviewPost({ route }){
         price_rating: ovr_price,
         quality_rating: quality_rating,
         clenliness_rating: clean_rating,
-        review_body: review_body,
+        review_body: review_body.replace(/tea|cakes|cake|pastry|pastries/gi, '***'),
       }),
     })
 

@@ -4,12 +4,13 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry, Tab, Text } from '@ui-kitten/components';
+import { ApplicationProvider, IconRegistry, Text } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import { Button} from 'react-native';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 
+import {MainStackNav, CoffeeStackNav} from './StackNavigator.js'
 
 import Landing from './components/HomeObject/Landing_page.js'
 import Login from './components/login_screen.js'
@@ -23,6 +24,7 @@ import UserReviewList from './components/users_reviews.js'
 import ReviewUpdate from './components/UserUpdateReview.js'
 
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 class App extends Component {
   
@@ -32,27 +34,38 @@ class App extends Component {
     
   }
 
-
+  
 
   render(){
   return (
   <React.Fragment>
   <IconRegistry icons={EvaIconsPack} />
   <ApplicationProvider {...eva} theme={eva.light}>
-   <NavigationContainer> 
+  <NavigationContainer>
+    <Tab.Navigator>
+
+     <Tab.Screen name="Home" component={MainStackNav}/>
+     <Tab.Screen name="Coffee Spots" component={CoffeeStackNav}/>
+     
+    </Tab.Navigator>
+  </NavigationContainer>
+
+    {/* <NavigationContainer> 
     <Stack.Navigator>
-     <Stack.Screen name="Home" component={Landing} />
-     <Stack.Screen name="CoffeeList" component={CoffeeList} />
-     <Stack.Screen name="CoffeeLocation" component={coffeeLocation} />
-     <Stack.Screen name="AddReview" component={ReviewPost} />
-     <Stack.Screen name="UsersReviews" component={UserReviewList} />
-     <Stack.Screen name="Update User Review" component={ReviewUpdate} />
-     <Stack.Screen name="Login" component={Login} />
-     <Stack.Screen name="SignUp" component={SignUp} />
-     <Stack.Screen name="Account" component={Account} />
-     <Stack.Screen name="AccountUpdate" component={AccountUpdate} />
-     </Stack.Navigator>
-    </NavigationContainer>
+      <Stack.Screen name="Home" component={Landing} />
+      <Stack.Screen name="CoffeeList" component={CoffeeList} />
+      <Stack.Screen name="CoffeeLocation" component={coffeeLocation} />
+      <Stack.Screen name="AddReview" component={ReviewPost} />
+      <Stack.Screen name="UsersReviews" component={UserReviewList} />
+      <Stack.Screen name="Update User Review" component={ReviewUpdate} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="SignUp" component={SignUp} />
+      <Stack.Screen name="Account" component={Account} />
+      <Stack.Screen name="AccountUpdate" component={AccountUpdate} />
+    </Stack.Navigator>
+    </NavigationContainer> */}
+
+    
   </ApplicationProvider>
   </React.Fragment>
 
