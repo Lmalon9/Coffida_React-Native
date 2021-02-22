@@ -5,6 +5,7 @@ import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler';
+import { Pattern } from 'react-native-svg';
 
 
 
@@ -53,10 +54,20 @@ function AccountUpdate(){
     }
     });
 
+    const passValidation = () =>{
+      var pattern = new RegExp("?")
+      if (!pattern.test(password)){
+        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      }
+      else {
+        return
+      }
+    }
+
     const send_update = async () => {
         var idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
         var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-        console.log(idlog)
+        passValidation();
         fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
         {
           method: 'patch',
@@ -132,11 +143,6 @@ function AccountUpdate(){
             </Text>
             <Input
             style = {styles.textbox}
-            pattern = {[
-              '^.{8,}$', //min 8 characters
-              '(?=.*\\d)', //number required
-              '(?=,*[A-Z])', //upercase letter
-            ]}
             onChangeText = {text => setPassword(text)}
             secureTextEntry = {true}
             />
