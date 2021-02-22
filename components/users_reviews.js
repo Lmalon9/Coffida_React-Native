@@ -16,7 +16,7 @@ function UserReviewList (props) {
         navigation.addListener('focus', () => {
             getAllUSRreview();
             //checkFavs();
-          }
+          },[]
           )
           async function getAllUSRreview(){
             var Id = JSON.parse(await AsyncStorage.getItem('@session_token')).id;

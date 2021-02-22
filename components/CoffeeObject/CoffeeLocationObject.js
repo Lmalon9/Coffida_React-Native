@@ -10,13 +10,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 const CoffeeLocationObject = ({ review, location }) => {
 
     const [like, setLike] = useState(false);
+    const [imageData, setImageData] = useState('')
     const navigation = useNavigation();
 
     useEffect(() => {
         console.log(location)
         console.log(review)
         checkLikes()
-    }, []);
+        review_photo(location.location_id, review.review_id)
+    }, [])
+
 
     const checkLikes = async() => {
         var token= JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -40,7 +43,7 @@ const CoffeeLocationObject = ({ review, location }) => {
             }
           })
           .then ((data) =>{
-        console.log(JSON.stringify(data.liked_reviews, null, 4));
+        //console.log(JSON.stringify(data.liked_reviews, null, 4));
         const currentLikes = (data.liked_reviews.filter(like => like.review.review_id === review.review_id).length)> 0;
         setLike(currentLikes);
         //console.log(currentLikes)
@@ -52,7 +55,7 @@ const CoffeeLocationObject = ({ review, location }) => {
 
         async function like_review(location_id, review_id){
             var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-            fetch(`http://10.0.2.2:3333/api/1.0.0/location/${location_id}/review/${review_id}/like`,
+            fetch(`http://10.0.2.2:3333/api/1.0.0/location/${location.location_id}/review/${review.review_id}/like`,
               {
                 method: like ? 'delete':'post',
                 headers: {
@@ -77,15 +80,19 @@ const CoffeeLocationObject = ({ review, location }) => {
             
           }
         
-        async function review_photo(location_id, review_id){
+        const review_photo = async(location_id, review_id) => {
             fetch(`http://10.0.2.2:3333/api/1.0.0/location/${location_id}/review/${review_id}/photo`,
             {
                 method: 'get',
+                headers: {
+                    "Content-Type": "image/png",
+                },
             })
         .then ((res) => {
             if (res.status === 200)
             {
-                return res.json();
+                //console.log(res);
+                return res;
             }
             else
             {
@@ -94,9 +101,9 @@ const CoffeeLocationObject = ({ review, location }) => {
 
         })
         .then ((data) => {
-            
-            return data
-
+            setImageData(data);
+            console.log(data);
+            return;
         })
         .catch( (message) => { console.log("ERROR" + message)})
 
@@ -175,7 +182,12 @@ const CoffeeLocationObject = ({ review, location }) => {
         <Layout>
 
         <Card footer = {Footer}>
-        <Image source={{uri:`data:image/png;base64,${review_photo(location.location_id, review.review_id)}` }}/>
+        {/* <Image source={{uri:"data:image/png;base64," + review_photo(location.location_id, review.review_id).uri}}
+                style = {{width: 150, height: 150}}/> */}
+        <Image
+            source={{uri: imageData.url}}
+            style={{ width: 150, height: 200, alignSelf: 'center'}}
+          />
         <Text>
             {review.review_body}
         </Text>   

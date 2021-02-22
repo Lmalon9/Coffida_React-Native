@@ -63,6 +63,7 @@ function CoffeeList (props) {
 
             //console.log(JSON.stringify(data, null, 4));
             setLocations(data)
+            console.log(locations.location_photopath)
             
             })
             .catch( (message) => { console.log("ERROR" + message)})

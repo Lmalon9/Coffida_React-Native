@@ -1,10 +1,14 @@
 import 'react-native-gesture-handler';
 import React, {Component, useState, useEffect} from 'react';
-import {StyleSheet, TouchableOpacity} from 'react-native';
+import {StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as ImagePicker from 'react-native-image-picker';
+import send_photo from './post_deleteImageObject.js'
+import { Platform } from 'react-native';
+
 
 
 function ReviewUpdate({ route }){
@@ -13,6 +17,9 @@ function ReviewUpdate({ route }){
   const [quality_rating, setQuality_rating] = useState(route.params.quality_rating); // initialize state
   const [clean_rating, setClean_rating] = useState(route.params.clenliness_rating); // initialize state
   const [review_body, setReview_body] = useState(route.params.review_body); // initialize state
+
+  const [filedata, setfiledata] = useState('');
+  const [fileURI, setfileURI] = useState('https://media3.s-nbcnews.com/j/newscms/2019_33/2203981/171026-better-coffee-boost-se-329p_67dfb6820f7d3898b5486975903c2e51.fit-760w.jpg');
 
   //const [review_ID, setReview_ID] = useState({review: review.params.review.review.review_id})
   const navigation = useNavigation()
@@ -58,8 +65,109 @@ function ReviewUpdate({ route }){
 
     .catch( (message) => { console.log("ERROR" + message)})
   }
+  const send_photo = async () => {
+    var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.review_Location}/review/${route.params.review_ID}/photo`,
+    {
+      method: 'post',
+      headers: {
+        "Content-Type": "image/png",
+        "X-Authorization": tokenlog,
+      },
+      body: filedata,
+
+  })
+
+  .then ((res) => {
+    if (res.status == 200)
+    {
+      //ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      console.log(res);
+      return ;
+      
+    }
+    else{
+      //ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      throw 'failed';
+
+    };
+
+  })
+  .catch( (message) => { console.log("ERROR" + message)})
+}
+
+const del_photo = async () => {
+  var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+  fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.review_Location}/review/${route.params.review_ID}/photo`,
+  {
+    method: 'delete',
+    headers: {
+      "Content-Type": "image/png",
+      "X-Authorization": tokenlog,
+    },
+})
+
+.then ((res) => {
+  if (res.status == 200)
+  {
+    //ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    console.log(res);
+    return ;
+    
+  }
+  else{
+    //ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    throw 'failed';
+
+  };
+
+})
+.catch( (message) => { console.log("ERROR" + message)})
+}
+
+  const cameraLaunch = async() => {
+      let options = {
+      storageOptions: {
+        skipBackup:true,
+        includeBase64: true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.launchCamera(options, (response) => {
+      console.log(response);
+      
+      if (response.didCancel){
+        console.log('canceled')
+      }
+      else if (response.error){
+        console.log(response.error)
+      }
+      else{
+        //setsource(response.uri);
+        console.log(JSON.stringify(response));
+        setfiledata(response);
+        console.log(filedata)
+        setfileURI(response.uri);
+
+        const data = new FormData();
+        data.append("filedata",{
+          name: filedata.fileName,
+          type: filedata.type,
+          uri: Platform.OS === "android" ? filedata.uri : filedata.uri.replace("file://","")
+        });
+        console.log(data)
+        console.log(filedata)
+
+        // send_photo({fileURI: response.uri,
+        //             location_id: route.params.review_Location,
+        //             review_ID: route.params.review_ID,
+        // })
+      }})
+  };
 
     return (
+      <ScrollView>
       <Layout style={styles.container}>
           <Text style={styles.text}>
           Overall
@@ -123,6 +231,28 @@ function ReviewUpdate({ route }){
           textStyle={{ minHeight: 64 }}
           onChangeText = {text => setReview_body(text)} 
           />
+          <Image
+            source={{uri: fileURI}}
+            style={{ width: 200, height: 200, }}
+          />
+          <Button
+          size = 'small'
+          onPress = {cameraLaunch}
+          >
+          Take A Photo
+          </Button>
+          <Button
+          size = 'small'
+          onPress = {send_photo}
+          >
+          Add the Photo to the review
+          </Button>
+          <Button
+          size = 'small'
+          onPress = {del_photo}
+          >
+          Delete photo from review
+          </Button>
           <TouchableOpacity on style={styles.button}>
           <Button
           size = 'small'
@@ -132,6 +262,8 @@ function ReviewUpdate({ route }){
           </Button>
           </TouchableOpacity>
       </Layout>
+      </ScrollView>
+
 
     );
   }

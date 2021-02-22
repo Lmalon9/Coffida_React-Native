@@ -2,6 +2,7 @@ import 'react-native-gesture-handler';
 import React, { Component, useEffect, useState } from 'react';
 import { StyleSheet, Image} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
+import {Rating} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Card, Text, Button, Layout, List, Divider, Icon, ListItem} from '@ui-kitten/components';
 import CoffeeLocationObject from './CoffeeObject/CoffeeLocationObject.js'
@@ -40,11 +41,12 @@ function coffeeLocation ({ route }) {
             })
             .then ( (data) => {
 
-            console.log(JSON.stringify(data, null, 4));
+            //console.log(JSON.stringify(data, null, 4));
 
             setLocations(data)
         })
           }
+        
         });
 
         const Header = (props) => (
@@ -62,13 +64,43 @@ function coffeeLocation ({ route }) {
       )
     
         const Footer = (props) => (
-          <Layout {...props} >
-          <Text category = 'c1'>
-          Overall Rating: {locations.avg_overall_rating}, 
-          Average Price Rating:{locations.avg_price_rating},  
-          Average Clenliness Rating: {locations.avg_clenliness_rating}, 
-          Average Quality Rating: {locations.avg_quality_rating},
+          <Layout {...props} style = {{flexDirection: 'row', flexWrap: 'wrap'}}>
+          <Text>
+          Overall Rating:
           </Text>
+          <Rating 
+           startingValue={locations.avg_overall_rating}
+           imageSize={15}
+           ratingCount={5}
+           readonly
+          />
+          <Text>
+          Price Rating:
+          </Text>
+          <Rating 
+           startingValue={locations.avg_price_rating}
+           imageSize={15}
+           ratingCount={5}
+           readonly
+          />
+          <Text>
+          Clenliness Rating:
+          </Text>
+          <Rating 
+           startingValue={locations.avg_clenliness_rating}
+           imageSize={15}
+           ratingCount={5}
+           readonly
+          />
+          <Text>
+          Quality Rating:
+          </Text>
+          <Rating 
+           startingValue={locations.avg_quality_rating}
+           imageSize={15}
+           ratingCount={5}
+           readonly
+          />
           </Layout>
       )
      

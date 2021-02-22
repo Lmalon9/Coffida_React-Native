@@ -3,8 +3,11 @@ import React, {Component, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
+import * as ImagePicker from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import { ScrollView } from 'react-native-gesture-handler';
+import { Image } from 'react-native';
 
 
 function ReviewPost({ route }){
@@ -13,7 +16,10 @@ function ReviewPost({ route }){
   const [quality_rating, setQuality_rating] = useState(0); // initialize state
   const [clean_rating, setClean_rating] = useState(0); // initialize state
   const [review_body, setReview_body] = useState(''); // initialize state
-  const navigation = useNavigation()
+  const navigation = useNavigation();
+  const [source, setsource] = useState('');
+  const [filepath, setfilepath] = useState('');
+  const [fileURI, setfileURI] = useState('https://media3.s-nbcnews.com/j/newscms/2019_33/2203981/171026-better-coffee-boost-se-329p_67dfb6820f7d3898b5486975903c2e51.fit-760w.jpg');
 
   const sendReview = async () => {
     var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -35,7 +41,8 @@ function ReviewPost({ route }){
 
     .then ((res) => {
       if (res.status == 201)
-      {
+      { 
+        navigation.navigate("CoffeeLocation",  {id: route.params.id});
         return res.json();
         
       }
@@ -52,7 +59,36 @@ function ReviewPost({ route }){
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
+  const cameraLaunch = () => {
+      let options = {
+      storageOptions: {
+        skipBackup:true,
+        path: 'images',
+      },
+    };
+
+    ImagePicker.launchCamera(options, (response) => {
+      console.log(response);
+      
+      if (response.didCancel){
+        console.log('canceled')
+      }
+      else if (response.error){
+        console.log(response.error)
+      }
+      else{
+        //setsource(response.uri);
+        console.log(JSON.stringify(response));
+        setfilepath(response);
+        setfileURI(response.uri);
+      }})
+  };
+
+
+  
+
     return (
+      <ScrollView>
       <Layout style={styles.container}>
           <Text style={styles.text}>
           Overall
@@ -115,6 +151,24 @@ function ReviewPost({ route }){
           textStyle={{ minHeight: 64 }}
           onChangeText = {text => setReview_body(text)} 
           />
+          {/* <Layout>
+            {renderFileUri()}
+          </Layout> */}
+          
+          <Image
+            source={{uri: fileURI || ''
+            }}
+            style={{ width: 100, height: 100 }}
+          />
+         
+          <TouchableOpacity on style={styles.button}>
+          <Button
+          size = 'small'
+          onPress = {cameraLaunch}
+          >
+          Take an Image
+          </Button>
+          </TouchableOpacity>
           <TouchableOpacity on style={styles.button}>
           <Button
           size = 'small'
@@ -124,9 +178,11 @@ function ReviewPost({ route }){
           </Button>
           </TouchableOpacity>
       </Layout>
+      </ScrollView>
 
     );
   }
+
 
   
   const styles = StyleSheet.create({

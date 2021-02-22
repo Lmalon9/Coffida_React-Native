@@ -25,7 +25,8 @@ const UserReviewObject = ({ review }) => {
     if (res.status == 200)
     {
       ToastAndroid.showWithGravity("Delete Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      console.log(res)
+      console.log(res);
+      navigation.navigate("CoffeeList")
       return;
       
     }
