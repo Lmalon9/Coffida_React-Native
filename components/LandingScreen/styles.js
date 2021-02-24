@@ -1,9 +1,6 @@
 import 'react-native-gesture-handler';
-import React from 'react';
-import { StyleSheet, TouchableOpacity} from 'react-native';
-import { useNavigation } from '@react-navigation/native'
-import { Card, Text, Button, Layout, Icon } from '@ui-kitten/components';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StyleSheet} from 'react-native';
+
 
 
 const styles = StyleSheet.create({

@@ -4,7 +4,7 @@ import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Card, Text, Button, Layout, List, Divider, Icon, Rating } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeObject from'./CoffeeObject/CoffeeObject.js'
+import CoffeeObject from'../CoffeeSpotsScreen/CoffeeObject.js'
 
 function SearchResults ({ route }) {
     console.log(route.params.searchInQ)

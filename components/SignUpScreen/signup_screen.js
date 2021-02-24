@@ -1,8 +1,8 @@
 import React, {Component, useState} from 'react';
 import { StyleSheet, Alert, TouchableOpacity, ToastAndroid} from 'react-native';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
-
 import { useNavigation } from '@react-navigation/native'
+import styles from './styles.js'
 
 
 function SignUp(){
@@ -50,6 +50,26 @@ function SignUp(){
       .catch( (message) => { console.log("ERROR" + message)})
     }
 
+  const emailValidation = () =>{
+      const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+      if (pattern.test(email) === false){
+        ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      }
+      else{
+        passValidation()
+      }
+    }
+
+  const passValidation = () =>{
+      const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+      if (pattern.test(password) === false){
+        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      }
+      else{
+        sendSignUp()
+      }
+    }
+
 
   function alert(){
     Alert.alert('First: '+ first_name + ' Last: ' + last_name + ' email: ' + email + ' password: ' + password)
@@ -92,7 +112,7 @@ function SignUp(){
           <Button 
           size = 'small'
           style={styles.button}
-          onPress = {sendSignUp}
+          onPress = {emailValidation}
           >
           Sign Up
           </Button>
@@ -102,40 +122,4 @@ function SignUp(){
     );
   }
 
-  
-  const styles = StyleSheet.create({
-    container: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F7F9FC',
-      justifyContent: 'center'
-
-    },
-    text: {
-      fontSize: 16,
-      marginTop: '5%',
-    
-    },
-    textSignUp: {
-      fontSize: 16,
-      marginTop: '5%',
-      marginHorizontal: '12%'
-    
-    },
-    textbox: {
-      width: '70%'
-      
-    },
-   
-    button:{
-      marginTop: 10,
-
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
-    }
-  });
-
-  
   export default SignUp;

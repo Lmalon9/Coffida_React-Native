@@ -8,6 +8,7 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Image } from 'react-native';
+import styles from './styles.js'
 
 
 function ReviewPost({ route }){
@@ -18,8 +19,11 @@ function ReviewPost({ route }){
   const [review_body, setReview_body] = useState(''); // initialize state
   const navigation = useNavigation();
   const [source, setsource] = useState('');
-  const [filepath, setfilepath] = useState('');
-  const [fileURI, setfileURI] = useState('https://media3.s-nbcnews.com/j/newscms/2019_33/2203981/171026-better-coffee-boost-se-329p_67dfb6820f7d3898b5486975903c2e51.fit-760w.jpg');
+  const [filedata, setfiledata] = useState('');
+  const [fileURI, setfileURI] = useState('');
+  const [review, setReview] = useState([])
+  const [lastreview, setLastReview] = useState([])
+
 
   const sendReview = async () => {
     var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -42,47 +46,125 @@ function ReviewPost({ route }){
     .then ((res) => {
       if (res.status == 201)
       { 
-        navigation.navigate("CoffeeLocation",  {id: route.params.id});
-        return res.json();
-        
+        console.log(res.json())
+
+        if (filedata == ''){
+          navigation.navigate("CoffeeLocation",  {id: route.params.id});
+  
+        }
+        else{
+          getAllReviews();
+        }
       }
       else{
         throw 'failed';
       };
 
     })
-    .then (async (data) => {
-
-      console.log(data);
-
-    })
     .catch( (message) => { console.log("ERROR" + message)})
   }
 
-  const cameraLaunch = () => {
-      let options = {
-      storageOptions: {
-        skipBackup:true,
-        path: 'images',
-      },
-    };
+  const cameraLaunch = async() => {
+    let options = {
+    storageOptions: {
+      skipBackup:true,
+      includeBase64: true,
+      path: 'images',
+    },
+  };
 
-    ImagePicker.launchCamera(options, (response) => {
-      console.log(response);
-      
-      if (response.didCancel){
-        console.log('canceled')
-      }
-      else if (response.error){
-        console.log(response.error)
+  ImagePicker.launchCamera(options, (response) => {
+    console.log(response);
+    
+    if (response.didCancel){
+      console.log('canceled')
+    }
+    else if (response.error){
+      console.log(response.error)
+    }
+    else{
+      //setsource(response.uri);
+      console.log(JSON.stringify(response));
+      setfiledata(response);
+      console.log(filedata)
+      setfileURI(response.uri);
+
+      const data = new FormData();
+      data.append("filedata",{
+        name: filedata.fileName,
+        type: filedata.type,
+        uri: Platform.OS === "android" ? filedata.uri : filedata.uri.replace("file://","")
+      });
+      console.log(data)
+      console.log(filedata)
+    }
+  })
+}
+
+  const getAllReviews = async () =>{
+    var Id = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
+    var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    // for (id = 1; id < 9; id++)
+    // {
+    fetch(`http://10.0.2.2:3333/api/1.0.0/user/${Id}`,
+    {
+      method: 'get',
+      headers: {
+        "Content-Type": "application/json",
+        "X-Authorization": tokenlog,
+      },
+    })
+    .then ((res) => {
+      if (res.status === 200)
+      {
+        return res.json();
       }
       else{
-        //setsource(response.uri);
-        console.log(JSON.stringify(response));
-        setfilepath(response);
-        setfileURI(response.uri);
-      }})
+        throw 'failed';
+      };
+
+    })
+    .then ( (data) => {
+    setReview(data)
+    setLastReview(data.reviews[data.reviews.length -1])
+    console.log(lastreview)
+    addPhoto();
+
+
+    })
+    .catch( (message) => { console.log("ERROR" + message)});
+  
+};
+
+const addPhoto = async () => {
+  var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+  fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.id}/review/${lastreview.review_id}/photo`,
+  {
+    method: 'post',
+    headers: {
+      "Content-Type": "image/png",
+      "X-Authorization": tokenlog,
+    },
+    body: filedata,
+
+})
+
+.then ((res) => {
+  if (res.status == 200)
+  {
+    //ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    console.log(success);
+    navigation.navigate("CoffeeLocation",  {id: route.params.id});          
+  }
+  else{
+    //ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    throw 'failed';
+
   };
+
+})
+.catch( (message) => { console.log("ERROR" + message)})
+}
 
 
   
@@ -156,8 +238,7 @@ function ReviewPost({ route }){
           </Layout> */}
           
           <Image
-            source={{uri: fileURI || ''
-            }}
+            source={{uri: fileURI || ''}}
             style={{ width: 100, height: 100 }}
           />
          
@@ -169,8 +250,8 @@ function ReviewPost({ route }){
           Take an Image
           </Button>
           </TouchableOpacity>
-          <TouchableOpacity on style={styles.button}>
-          <Button
+          <TouchableOpacity>
+          <Button style={styles.button}
           size = 'small'
           onPress = {sendReview}
           >
@@ -182,44 +263,5 @@ function ReviewPost({ route }){
 
     );
   }
-
-
-  
-  const styles = StyleSheet.create({
-    container: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F7F9FC',
-      justifyContent: 'center'
-
-    },
-    rating: {
-      backgroundColor: '#F7F9FC'
-    },
-    text: {
-      fontSize: 16,
-      marginTop: '5%',
-    
-    },
-    textSignUp: {
-      fontSize: 16,
-      marginTop: '5%',
-      marginHorizontal: '12%'
-    
-    },
-    textbox: {
-      width: '70%'
-      
-    },
-    button:{
-      marginTop: 10,
-
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
-    }
-  });
-
   
   export default ReviewPost;

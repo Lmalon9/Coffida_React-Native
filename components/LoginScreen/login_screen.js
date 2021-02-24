@@ -3,6 +3,7 @@ import { ToastAndroid, StyleSheet, Alert, TouchableOpacity} from 'react-native';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import styles from './styles.js'
 
 
 function Login(){
@@ -95,39 +96,4 @@ function Login(){
     );
   }
 
-  
-  const styles = StyleSheet.create({
-    container: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-      alignItems: 'center',
-      backgroundColor: '#F7F9FC',
-      justifyContent: 'center'
-
-    },
-    text: {
-      fontSize: 16,
-      marginTop: '5%',
-    
-    },
-    textSignUp: {
-      fontSize: 16,
-      marginTop: '5%',
-      marginHorizontal: '12%'
-    
-    },
-    textbox: {
-      width: '70%'
-      
-    },
-    button:{
-      marginTop: 10,
-
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
-    }
-  });
-
-  
   export default Login;

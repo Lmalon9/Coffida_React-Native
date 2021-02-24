@@ -6,7 +6,7 @@ import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler';
 import { Pattern } from 'react-native-svg';
-
+import styles from './styles.js'
 
 
 function AccountUpdate(){
@@ -54,20 +54,31 @@ function AccountUpdate(){
     }
     });
 
-    const passValidation = () =>{
-      var pattern = new RegExp("?")
-      if (!pattern.test(password)){
-        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    const emailValidation = () =>{
+      var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+      if (pattern.test(email) === false){
+        ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
       }
-      else {
-        return
+      else{
+        passValidation()
       }
     }
+
+    const passValidation = () =>{
+      var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+      if (pattern.test(password) === false){
+        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      }
+      else{
+        send_update()
+      }
+    }
+
+    
 
     const send_update = async () => {
         var idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
         var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-        passValidation();
         fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
         {
           method: 'patch',
@@ -150,7 +161,7 @@ function AccountUpdate(){
               <Button
               style={styles.button}
               size = 'small'
-              onPress={send_update}
+              onPress={emailValidation}
               >
               Update
               </Button>
@@ -160,29 +171,4 @@ function AccountUpdate(){
 
     );
   }
-  
-  
-    const styles = StyleSheet.create({
-      container: {
-        width: '100%',
-        height: '100%',
-        textAlign: 'center',
-        alignItems: 'center',
-        //backgroundColor: '#F7F9FC',
-        justifyContent: 'center'
-      },
-      text: {
-        fontSize: 16,
-        marginTop: '5%',
-      },
-      textbox: {
-        width: '70%'     
-      },
-
-      button:{
-        marginTop: 10,
-        backgroundColor: '#151A30',
-        borderColor: '#151A30',
-      },
-    });
-    export default AccountUpdate
+export default AccountUpdate

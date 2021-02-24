@@ -1,12 +1,12 @@
 import 'react-native-gesture-handler';
-import React, {Component, useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, TouchableOpacity, Image, ScrollView} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import * as ImagePicker from 'react-native-image-picker';
-import send_photo from './post_deleteImageObject.js'
+import styles from './styles'
 import { Platform } from 'react-native';
 
 
@@ -267,42 +267,5 @@ const del_photo = async () => {
 
     );
   }
-
-  
-  const styles = StyleSheet.create({
-    container: {
-      width: '100%',
-      height: '100%',
-      textAlign: 'center',
-      alignItems: 'center',
-      justifyContent: 'center'
-
-    },
-    rating: {
-      //backgroundColor: '#F7F9FC'
-    },
-    text: {
-      fontSize: 16,
-      marginTop: '5%',
-    
-    },
-    textSignUp: {
-      fontSize: 16,
-      marginTop: '5%',
-      marginHorizontal: '12%'
-    
-    },
-    textbox: {
-      width: '70%'
-      
-    },
-    button:{
-    flexDirection: 'column',
-    marginTop: 10,
-    backgroundColor: '#151A30',
-    borderColor: '#151A30',
-    }
-  });
-
   
   export default ReviewUpdate;

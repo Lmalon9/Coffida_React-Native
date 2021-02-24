@@ -48,55 +48,19 @@ function filter(){
             </Text>
             <Input  onChangeText = {text => setClenlinessQ('clenliness_rating=' + text + '&')}/>
 
-            <RNPickerSelect
-            
-            onValueChange={(value) => console.log(value)}
-            onValueChange={(value) => setSearchInQ(value)}
-
-            items={[
-                {label: 'Test', value: 'null'},
-                {label: 'favourite', value: 'favourite'},
-                {label: 'reviewed', value: 'reviewed'},
-            ]}
-
-            />
-
-            {/* <Picker 
-            //mode='dropdown'
-            selectedValue={searchinQ}
-            onChangeItem={(itemValue) => console.log(itemValue)}>
-                <Picker.Item label='None' itemValue=' ' itemKey='0'/>
-                <Picker.Item label='favourite' itemValue='search_in=favourite' itemKey='1'/>
-                <Picker.Item label='reviewed' itemValue='search_in=reviewed' itemKey='2'/>
-            </Picker> */}
-
-            {/* <DropDownPicker
+            <DropDownPicker
                 items={[
                     {label: 'none', value: ' '},
-                    {label: 'favourite', value: 'favourite'},
-                    {label: 'reviewed', value: 'reviewed'},
+                    {label: 'favourite', value: 'search_in=favourite'},
+                    {label: 'reviewed', value: 'search_in=reviewed'},
                 ]}
                 defaultValue={' '}
                 containerStyle={{height:40}}
                 //onChangeItem ={item => setSearchInQ(item.value)}
                 onChangeItem={item => setSearchInQ(item.value)}
-            /> */}
-
-            {/* <Select
-            label='Search In'
-            //caption='Caption'
-            selectedIndex = {searchinQ}
-            onSelect={value => setSearchInQ(value)}>
-                <SelectItem title=' ' value=' '/>
-                <SelectItem title='favourite' value='favourite'/>
-                <SelectItem title='reviewed' value='reviewed'/>
-
-            </Select> */}
-
-            {/* <Text>
-            Search in:
-            </Text>
-            <Input  onChangeText = {text => setSearchInQ('search_in=' + text + '&')}/> */}
+            />
+            {/* Attempted to use UI kittens own dropdown menu called Select, however ran into a variety of issues relating to the 
+            values, and I was unable to fix in time */}
 
             <Text>
             Limit Results:

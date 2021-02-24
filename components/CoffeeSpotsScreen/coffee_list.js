@@ -4,7 +4,8 @@ import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Card, Text, Button, Layout, List, Divider, Icon } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeObject from'./CoffeeObject.js'
+import CoffeeSpots from'./CoffeeObject.js'
+import styles from './styles.js'
 
 
 function CoffeeList (props) {
@@ -89,35 +90,12 @@ function CoffeeList (props) {
                 keyExtractor={item => item.location_id.toString()}
                 ItemSeparatorComponent={Divider}
                 renderItem={({ item }) => (
-                  <CoffeeObject location = {item} />
+                  <CoffeeSpots location = {item} />
                   )}/>
 
             </Layout>
           )
                 };
 
-      const styles = StyleSheet.create({
-        container: {
-          flexDirection: 'column',
-
-        },
-        card:{
-          backgroundColor: '#EDF1F7',
-
-        },
-        text: {
-          fontSize: 30,
-          textAlign: 'center',
-          fontWeight: 'bold',
-          marginTop: 10,
-        },
-        button:{
-          alignContent: 'center',
-          alignItems: 'center',
-          justifyContent: 'center',
-          backgroundColor: '#151A30',
-          borderColor: '#151A30',
-    
-      },
-      });
+ 
       export default CoffeeList

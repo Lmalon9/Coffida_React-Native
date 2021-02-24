@@ -32,34 +32,5 @@ function LoggedIn({ id }){
     )
 }
 
-// const styles = StyleSheet.create({
-
-//     footerContainer: {
-//         flexDirection: 'row',
-//         justifyContent: 'center',
-//       },
-//       Container:{
-//         flex: 1,
-//         flexDirection: 'column',
-//         height: 100, 
-//         alignItems: 'center',
-//         justifyContent: 'center',
-
-//     },
-//     flexbox:{
-//         height: 200, 
-//         borderRadius: 10,
-//     },
-//     titleText: {
-//         textAlign: 'center',
-//     },
-//     button:{
-//         alignContent: 'center',
-//         alignItems: 'center',
-//         justifyContent: 'center'
-
-//     },
-
-// })
 
 export default LoggedIn

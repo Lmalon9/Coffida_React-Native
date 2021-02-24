@@ -5,7 +5,8 @@ import { useNavigation } from '@react-navigation/native'
 import {Rating} from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Card, Text, Button, Layout, List, Divider, Icon, ListItem} from '@ui-kitten/components';
-import CoffeeLocationObject from './CoffeeObject/CoffeeLocationObject.js'
+import CoffeeLocationObject from './CoffeeLocationObject.js'
+import styles from './styles.js'
 
 
 function coffeeLocation ({ route }) {
@@ -47,7 +48,7 @@ function coffeeLocation ({ route }) {
         })
           }
         
-        });
+        }, []);
 
         const Header = (props) => (
           <Layout {...props} >
@@ -141,18 +142,18 @@ function coffeeLocation ({ route }) {
         // </View>
     )
 }
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
+// const styles = StyleSheet.create({
+//   container: {
+//     flexDirection: 'column',
 
-  },
-  button:{
-      alignContent: 'center',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: '#151A30',
-      borderColor: '#151A30',
+//   },
+//   button:{
+//       alignContent: 'center',
+//       alignItems: 'center',
+//       justifyContent: 'center',
+//       backgroundColor: '#151A30',
+//       borderColor: '#151A30',
 
-  },
-});    
+//   },
+// });    
 export default coffeeLocation

@@ -11,18 +11,18 @@ import { EvaIconsPack } from '@ui-kitten/eva-icons';
 
 
 
-import Landing from './components/HomeObject/Landing_page.js'
-import Login from './components/login_screen.js'
-import SignUp from './components/signup_screen.js'
-import Account from './components/account.js'
-import AccountUpdate from './components/account_update.js'
-import CoffeeList from './components/CoffeeObject/coffee_list.js'
-import coffeeLocation from './components/coffee_location.js'
-import ReviewPost from './components/add_Review_Page.js'
-import UserReviewList from './components/users_reviews.js'
-import ReviewUpdate from './components/UserUpdateReview.js'
-import filter from './components/search_page.js'
-import SearchResults from './components/search_results.js';
+import Landing from './components/LandingScreen/Landing_page.js'
+import Login from './components/LoginScreen/login_screen.js'
+import SignUp from './components/SignUpScreen/signup_screen.js'
+import Account from './components/AccountScreen/account.js'
+import AccountUpdate from './components/AccountUpdateScreen/account_update.js'
+import CoffeeList from './components/CoffeeSpotsScreen/coffee_list.js'
+import coffeeLocation from './components/CoffeeLocationScreen/coffee_location.js'
+import ReviewPost from './components/AddReviewScreen/add_Review_Page.js'
+import UserReviewList from './components/UserReviewScreen/users_reviews.js'
+import ReviewUpdate from './components/UpdateReviewScreen/UserUpdateReview.js'
+import filter from './components/SearchScreen/search_page.js'
+import SearchResults from './components/SearchScreen/search_results.js';
 
 
 const Stack = createStackNavigator();

@@ -3,9 +3,10 @@ import React, { Component, useEffect, useState } from 'react';
 import {ToastAndroid, StyleSheet, Image} from 'react-native';
 import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, List, Divider, Icon} from '@ui-kitten/components';
-import {CheckReviewObject} from './ReviewObject'
+//import {CheckReviewObject} from './ReviewObject'
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import styles from './styles.js'
 
 const CoffeeLocationObject = ({ review, location }) => {
 
@@ -101,7 +102,7 @@ const CoffeeLocationObject = ({ review, location }) => {
 
         })
         .then ((data) => {
-            setImageData(data);
+            setImageData(data, "?time" + new Date());
             console.log(data);
             return;
         })
@@ -185,29 +186,29 @@ const CoffeeLocationObject = ({ review, location }) => {
         {/* <Image source={{uri:"data:image/png;base64," + review_photo(location.location_id, review.review_id).uri}}
                 style = {{width: 150, height: 150}}/> */}
         <Image
-            source={{uri: imageData.url}}
+            source={{uri: imageData.url + '?' + new Date()}}
             style={{ width: 150, height: 200, alignSelf: 'center'}}
           />
         <Text>
             {review.review_body}
         </Text>   
-        <Button style={styles.button} appearance='ghost' accessoryLeft={heartIcon} size = 'medium' onPress ={() => like_review(location.location_id, review.review_id)}>
+        <Button style={styles.buttonLike} appearance='ghost' accessoryLeft={heartIcon} size = 'medium' onPress ={() => like_review(location.location_id, review.review_id)}>
         
         </Button>     
         </Card>
         </Layout>
     )
 }
-const styles = StyleSheet.create({
-    button:{
-        alignContent: 'center',
-        alignItems: 'center',
-        width: 50 ,
-        justifyContent: 'center',
-        color: '#ff0000'
-        //backgroundColor: '#151A30',
-        //borderColor: '#151A30',
+// const styles = StyleSheet.create({
+//     button:{
+//         alignContent: 'center',
+//         alignItems: 'center',
+//         width: 50 ,
+//         justifyContent: 'center',
+//         color: '#ff0000'
+//         //backgroundColor: '#151A30',
+//         //borderColor: '#151A30',
   
-    },
-});
+//     },
+// });
 export default CoffeeLocationObject

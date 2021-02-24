@@ -5,8 +5,9 @@ import {Rating} from 'react-native-elements';
 import { Card, Text, Button, Layout, List, Divider, Icon} from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
+import styles from './styles'
 
-const CoffeeObject = ({ location }) => {
+const CoffeeSpots = ({ location }) => {
     const [favourite, setFavourite] = useState(false);
     const navigation = useNavigation();
 
@@ -81,7 +82,7 @@ const CoffeeObject = ({ location }) => {
             <Text category = 's1'>
             {location.location_town}
             </Text>
-            <Button style= {styles.button} appearance='ghost' accessoryLeft={starIcon} size = 'medium' onPress={() => fav_location(location.location_id)}>
+            <Button style= {styles.buttonFav} appearance='ghost' accessoryLeft={starIcon} size = 'medium' onPress={() => fav_location(location.location_id)}>
 
             </Button>
             </Layout>
@@ -128,25 +129,25 @@ const CoffeeObject = ({ location }) => {
           )
           
 }
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
+// const styles = StyleSheet.create({
+//   container: {
+//     flexDirection: 'column',
 
-  },
-  header:{
-    alignContent: 'stretch',
-    alignItems: 'stretch'
-  },
-  card:{
-    //backgroundColor: '#EDF1F7',
-    alignItems: 'center',
+//   },
+//   header:{
+//     alignContent: 'stretch',
+//     alignItems: 'stretch'
+//   },
+//   card:{
+//     //backgroundColor: '#EDF1F7',
+//     alignItems: 'center',
 
 
-  },
-  button:{
-  alignContent: 'center',
-  alignItems: 'center',
-  justifyContent: 'center'
-  }
-});
-export default CoffeeObject
+//   },
+//   button:{
+//   alignContent: 'center',
+//   alignItems: 'center',
+//   justifyContent: 'center'
+//   }
+// });
+export default CoffeeSpots
