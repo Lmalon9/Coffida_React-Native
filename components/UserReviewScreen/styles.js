@@ -6,8 +6,7 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   card: {
-    // backgroundColor: '#EDF1F7',
-    alignItems: 'center',
+    backgroundColor: '#EDF1F7',
   },
   text: {
     fontSize: 30,
@@ -19,17 +18,21 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#000080',
-    borderColor: '#000080',
+    backgroundColor: '#151A30',
+    borderColor: '#151A30',
   },
-  buttonFav: {
+  objectContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+  },
+  objectButton: {
     alignContent: 'center',
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center'
-  },
-  header: {
-    alignContent: 'stretch',
-    alignItems: 'stretch'
+    width: 100,
+    justifyContent: 'center',
+    borderColor: '#151A30',
   },
 });
 

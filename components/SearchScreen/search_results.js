@@ -1,10 +1,11 @@
+/* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
-import React, { Component, useEffect, useState } from 'react';
-import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
-import { useNavigation } from '@react-navigation/native'
-import { Card, Text, Button, Layout, List, Divider, Icon, Rating } from '@ui-kitten/components';
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeObject from'../CoffeeSpotsScreen/CoffeeObject.js'
+import React, { useEffect, useState } from 'react';
+import { ToastAndroid } from 'react-native';
+import { Layout, List, Divider } from '@ui-kitten/components';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import CoffeeObject from'../CoffeeSpotsScreen/CoffeeObject';
+import styles from './styles';
 
 function SearchResults ({ route }) {
     console.log(route.params.searchInQ)
@@ -81,30 +82,4 @@ function SearchResults ({ route }) {
       )
             };
 
-  const styles = StyleSheet.create({
-    container: {
-      flexDirection: 'column',
-
-    },
-    text: {
-      fontSize: 30,
-      textAlign: 'center',
-      fontWeight: 'bold',
-      marginTop: 10,
-    },
-  header:{
-    alignContent: 'stretch',
-    alignItems: 'stretch'
-  },
-  card:{
-    //backgroundColor: '#EDF1F7',
-    alignItems: 'center',
-
-  },
-  button:{
-  alignContent: 'center',
-  alignItems: 'center',
-  justifyContent: 'center'
-  }
-  });
   export default SearchResults

@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
 import React, {Component, useState} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
@@ -7,6 +8,8 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import DropDownPicker from 'react-native-dropdown-picker'
 import RNPickerSelect from 'react-native-picker-select'
+import styles from './styles.js'
+
 
 function filter(){
     const [query, setQuery] = useState('');
@@ -47,7 +50,9 @@ function filter(){
             Filter by clenliness rating:
             </Text>
             <Input  onChangeText = {text => setClenlinessQ('clenliness_rating=' + text + '&')}/>
-
+            <Text>
+            Filter by category:
+            </Text>
             <DropDownPicker
                 items={[
                     {label: 'none', value: ' '},
@@ -72,7 +77,7 @@ function filter(){
             </Text>
             <Input  onChangeText = {text => setOffsetQ('offset=' + text + '&')}/>
 
-            <Button onPress={() => navigation.navigate("Search Results",  {
+            <Button style={styles.button} onPress={() => navigation.navigate("Search Results",  {
         query: query,
         overallQ: overallQ,
         priceQ: priceQ,

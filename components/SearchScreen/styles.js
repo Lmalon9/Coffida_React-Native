@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
 import { StyleSheet } from 'react-native';
 
@@ -5,16 +6,24 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
   },
-  card: {
-    // backgroundColor: '#EDF1F7',
-    alignItems: 'center',
-  },
+
   text: {
     fontSize: 30,
     textAlign: 'center',
     fontWeight: 'bold',
     marginTop: 10,
   },
+
+  header: {
+    alignContent: 'stretch',
+    alignItems: 'stretch',
+  },
+
+  card: {
+    // backgroundColor: '#EDF1F7',
+    alignItems: 'center',
+  },
+
   button: {
     alignContent: 'center',
     alignItems: 'center',
@@ -22,15 +31,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#000080',
     borderColor: '#000080',
   },
-  buttonFav: {
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  header: {
-    alignContent: 'stretch',
-    alignItems: 'stretch'
-  },
-});
 
-export default styles;
+});
+export default styles

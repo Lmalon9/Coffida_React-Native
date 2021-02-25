@@ -1,174 +1,150 @@
-import 'react-native-gesture-handler';
-import React, { Component, useEffect, useState } from 'react';
-import { ToastAndroid, StyleSheet, Alert, TouchableOpacity, NativeModules, StatusBar, FlatList, SafeAreaView} from 'react-native';
-import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
+/* eslint-disable react/jsx-filename-extension */
+import React, { useEffect, useState } from 'react';
+import { ToastAndroid, TouchableOpacity } from 'react-native';
+import { Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { ScrollView } from 'react-native-gesture-handler';
-import { Pattern } from 'react-native-svg';
-import styles from './styles.js'
+import styles from './styles'
 
+function AccountUpdate() {
+  const [firstName, setFirstName] = useState(''); // initialize state
+  const [lastName, setLastName] = useState(''); // initialize state
+  const [email, setEmail] = useState(''); // initialize state
+  const [password, setPassword] = useState(''); // initialize state
+  const navigation = useNavigation();
 
-function AccountUpdate(){
-    const [first_name, setFirstName] = useState(''); // initialize state
-    const [last_name, setLastName] = useState(''); // initialize state
-    const [email, setEmail] = useState(''); // initialize state
-    const [password, setPassword] = useState(''); // initialize state
-    const isValid = useState(null)
-    const navigation = useNavigation();
-
-    useEffect(() => {
-      navigation.addListener('focus', () => {
-        getUserInfo();
-      }
-      )
-      async function getUserInfo(){
-      var idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
-      var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-      fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
-      {
-        method: 'get',
-        headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": tokenlog,
-        },
-      })
-      .then ((res) => {
-        if (res.status === 200)
-        {
-          return res.json();
-        }
-        else{
-          throw 'failed';
-        };
-  
-      })
-      .then ( (data) => {
-        console.log(data);
-        setFirstName(data.first_name);
-        setLastName(data.last_name);
-        setEmail(data.email);
-  
-      })
-      .catch( (message) => { console.log("ERROR" + message)})
-    }
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      getUserInfo();
     });
-
-    const emailValidation = () =>{
-      var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
-      if (pattern.test(email) === false){
-        ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      }
-      else{
-        passValidation()
-      }
-    }
-
-    const passValidation = () =>{
-      var pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
-      if (pattern.test(password) === false){
-        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      }
-      else{
-        send_update()
-      }
-    }
-
-    
-
-    const send_update = async () => {
-        var idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
-        var tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-        fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
+    async function getUserInfo() {
+      const idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
+      const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+      fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
         {
-          method: 'patch',
+          method: 'get',
           headers: {
-            "Content-Type": "application/json",
-            "X-Authorization": tokenlog,
-          
+            'Content-Type': 'application/json',
+            'X-Authorization': tokenlog,
           },
-          body: JSON.stringify( {
-            first_name: first_name,
-            last_name:last_name,
-            email: email,
-            password: password,
-          }),
-      })
+        })
+        .then((res) => {
+          if (res.status === 200) {
+            return res.json();
+          } else {
+          throw 'failed';
+          };
+        })
+        .then((data) => {
+          // console.log(data);
+          setFirstName(data.first_name);
+          setLastName(data.last_name);
+          setEmail(data.email);
+        })
+        .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
+    }
+  });
 
-      .then ((res) => {
-        if (res.status == 200)
-        {
-          ToastAndroid.showWithGravity("Update Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
-          navigation.navigate("Account")
+  const send_update = async () => {
+    const idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
+    const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
+    fetch(`http://10.0.2.2:3333/api/1.0.0/user/${idlog}`,
+      {
+        method: 'patch',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Authorization': tokenlog,
+        },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          password: password,
+        }),
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          ToastAndroid.showWithGravity('Update Successful', ToastAndroid.SHORT, ToastAndroid.CENTER);
+          navigation.navigate('Account');
           return;
-          
-        }
-        else{
+        } else {
           ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
-
-        };
-  
+        }
       })
-      // .then (async (data) => {
-  
-      //   console.log(data);
-      //   navigation.navigate("Account")
-  
-      // })
-      .catch( (message) => { console.log("ERROR" + message)})
+    // .then (async (data) => {
+    //   console.log(data);
+    //   navigation.navigate("Account")
+    // })
+      .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
+  };
+
+  const passValidation = () =>{
+    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+    if (pattern.test(password) === false) {
+      ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    } else {
+      send_update();
     }
+  };
 
-    return (
-      
-        <Layout style={styles.container}>
-          <ScrollView style ={{alignSelf:'center', width: '100%', height:'100%', margin: 20}} 
-          contentContainerStyle={{justifyContent:'center', alignItems:'center'}}>
-            <Text style={styles.text}>
-            First Name:
-            </Text>
-            <Input 
-            style = {styles.textbox}
-            value = {first_name}
-            onChangeText = {text => setFirstName(text)}
-            />
-            <Text style={styles.text}>
-            Last Name:
-            </Text>
-            <Input
-            style = {styles.textbox}
-            value = {last_name}
-            onChangeText = {text => setLastName(text)}
-            />
-            <Text style={styles.text}>
-            Email:
-            </Text>
-            <Input
-            style = {styles.textbox}
+  const emailValidation = () =>{
+    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+    if (pattern.test(email) === false) {
+      ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
+    } else {
+      passValidation();
+    }
+  };
 
-            value = {email}
-            onChangeText = {text => setEmail(text)}            
-            />
-            <Text style={styles.text}>
-            Password:
-            </Text>
-            <Input
-            style = {styles.textbox}
-            onChangeText = {text => setPassword(text)}
-            secureTextEntry = {true}
-            />
-            <TouchableOpacity>
-              <Button
-              style={styles.button}
-              size = 'small'
-              onPress={emailValidation}
-              >
-              Update
-              </Button>
-            </TouchableOpacity>
-            </ScrollView> 
-        </Layout>
+  return (
+    <Layout style={styles.container}>
+      <ScrollView style={{ alignSelf: 'center', width: '100%', height: '100%', margin: 20 }} 
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+        <Text style={styles.text}>
+          First Name:
+        </Text>
+        <Input
+          style={styles.textbox}
+          value={firstName}
+          onChangeText={text => setFirstName(text)}
+        />
+        <Text style={styles.text}>
+          Last Name:
+        </Text>
+        <Input
+          style={styles.textbox}
+          value={lastName}
+          onChangeText={text => setLastName(text)}
+        />
+        <Text style={styles.text}>
+          Email:
+        </Text>
+        <Input
+          style={styles.textbox}
+          value={email}
+          onChangeText={text => setEmail(text)}
+        />
+        <Text style={styles.text}>
+          Password:
+        </Text>
+        <Input
+          style={styles.textbox}
+          onChangeText={text => setPassword(text)}
+          secureTextEntry={true}
+        />
+        <TouchableOpacity>
+          <Button
+            style={styles.button}
+            size='small'
+            onPress={emailValidation}>
+            Update
+          </Button>
+        </TouchableOpacity>
+      </ScrollView>
+    </Layout>
+  );
+}
 
-    );
-  }
-export default AccountUpdate
+export default AccountUpdate;
