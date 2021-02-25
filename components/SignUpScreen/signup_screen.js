@@ -1,21 +1,25 @@
-import React, {Component, useState} from 'react';
-import { StyleSheet, Alert, TouchableOpacity, ToastAndroid} from 'react-native';
-import { Card, Text, Button, Layout, Input } from '@ui-kitten/components';
-import { useNavigation } from '@react-navigation/native'
-import styles from './styles.js'
+/* eslint-disable react/jsx-filename-extension */
+import React, {useState} from 'react';
+import { Alert, TouchableOpacity, ToastAndroid } from 'react-native';
+import { 
+  Text,
+  Button,
+  Layout,
+  Input,
+} from '@ui-kitten/components';
+import { useNavigation } from '@react-navigation/native';
+import styles from './styles';
 
 
-function SignUp(){
+function SignUp() {
+  const [first_name, setFirstName] = useState(''); // initialize state
+  const [last_name, setLastName] = useState(''); // initialize state
+  const [email, setEmail] = useState(''); // initialize state
+  const [password, setPassword] = useState(''); // initialize state
+  const navigation = useNavigation();
 
-    const [first_name, setFirstName] = useState(''); // initialize state
-    const [last_name, setLastName] = useState(''); // initialize state
-    const [email, setEmail] = useState(''); // initialize state
-    const [password, setPassword] = useState(''); // initialize state
-    const navigation = useNavigation()
-
-
-    const sendSignUp = () => {
-      fetch("http://10.0.2.2:3333/api/1.0.0/user",
+  const sendSignUp = () => {
+    fetch("http://10.0.2.2:3333/api/1.0.0/user",
       {
         method: 'post',
         headers: {
@@ -28,98 +32,94 @@ function SignUp(){
           password: password,
         }),
       })
-
       .then ((res) => {
-        if (res.status == 201)
-        {
+        if (res.status === 201) {
           ToastAndroid.showWithGravity("SignUp Successful!", ToastAndroid.SHORT, ToastAndroid.CENTER)
           return res.json();
-          
-        }
-        else{
+        } else {
           ToastAndroid.showWithGravity("SignUp Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
-        };
-
+        }
       })
-      .then ( (data) => {
+      .then((data) => {
         console.log(data);
         navigation.navigate("Login")
-
       })
-      .catch( (message) => { console.log("ERROR" + message)})
+      .catch((message) => { console.log("ERROR" + message)})
     }
 
   const emailValidation = () =>{
-      const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
-      if (pattern.test(email) === false){
-        ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      }
-      else{
-        passValidation()
-      }
+    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+    if (pattern.test(email) === false) {
+      ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER);
+    } else {
+      passValidation();
     }
-
+  };
+  
   const passValidation = () =>{
-      const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
-      if (pattern.test(password) === false){
-        ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
-      }
-      else{
-        sendSignUp()
-      }
+    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+    if (pattern.test(password) === false) {
+      ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER);
     }
+    else{
+      sendSignUp();
+    }
+  };
 
-
-  function alert(){
+  function alert() {
     Alert.alert('First: '+ first_name + ' Last: ' + last_name + ' email: ' + email + ' password: ' + password)
     console.log(first_name, last_name, email, password)
   }
 
-    return (
-      <Layout style={styles.container}>
-          <Text style={styles.text}>
-            First Name:
-          </Text>
-          <Input placeholder = 'First Name' style={styles.textbox}
-          onChangeText = {text => setFirstName(text)}
-          />
-          <Text style={styles.text}>
-            Last Name:
-          </Text>
-          <Input placeholder = 'Last Name' style={styles.textbox}
-          onChangeText = {text => setLastName(text)}
-          
-          />  
-          <Text style={styles.text}>
-            Email:
-          </Text>
-          <Input placeholder = 'Email:' style={styles.textbox}
-          onChangeText = {text => setEmail(text)}
-          secureTextEntry = {true}
+  return (
+    <Layout style={styles.container}>
+      <Text style={styles.text}>
+        First Name:
+      </Text>
+      <Input
+        placeholder="First Name:"
+        style={styles.textbox}
+        onChangeText={(text) => setFirstName(text)}
+      />
+      <Text style={styles.text}>
+        Last Name:
+      </Text>
+      <Input
+        placeholder="Last Name:"
+        style={styles.textbox}
+        onChangeText={(text) => setLastName(text)}
+      />
+      <Text style={styles.text}>
+        Email:
+      </Text>
+      <Input 
+        placeholder="Email:"
+        style={styles.textbox}
+        onChangeText={(text) => setEmail(text)}
+        secureTextEntry={true}
+      />
+      <Text style={styles.text}>
+        Password:
+      </Text>
+      <Input
+        placeholder="Password:"
+        style={styles.textbox}
+        onChangeText={(text) => setPassword(text)}
+        secureTextEntry={true}
+      />
 
-          
-          />  
-          <Text style={styles.text}>
-            Password:
-          </Text>
-          <Input placeholder = 'Password:' style={styles.textbox}
-          onChangeText = {text => setPassword(text)}
-          secureTextEntry = {true}
-          />  
-
-          <TouchableOpacity>
-          <Button 
-          size = 'small'
+      <TouchableOpacity>
+        <Button
+          size="small"
           style={styles.button}
-          onPress = {emailValidation}
-          >
+          onPress={emailValidation}
+        >
           Sign Up
-          </Button>
-          </TouchableOpacity>
-      </Layout>
+        </Button>
+      </TouchableOpacity>
+    </Layout>
+  );
+}
 
-    );
-  }
-
-  export default SignUp;
+export default SignUp;
