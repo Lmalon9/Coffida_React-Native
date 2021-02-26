@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, ToastAndroid } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import LoggedIn from './LoggedIn.js'
 import NotLoggedIn from './NotLoggedIn.js'
@@ -16,7 +16,7 @@ function Landing() {
       checkLoggedIn();
     });
 
-async function checkLoggedIn() {
+    async function checkLoggedIn() {
       try {
         const value = await AsyncStorage.getItem('@session_token');
         if (value == null) {
@@ -28,7 +28,7 @@ async function checkLoggedIn() {
         }
       } catch (error) {
 
-      }
+    }
     }
   }, []);
 
@@ -39,7 +39,7 @@ async function checkLoggedIn() {
     );
   } else {
     return(
-      <LoggedIn id = {id} />
+    <LoggedIn id = {id} />
     );
   }
 }

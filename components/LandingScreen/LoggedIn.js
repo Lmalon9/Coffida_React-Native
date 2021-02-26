@@ -16,8 +16,9 @@ function LoggedIn({ id }) {
   const Footer = (props) => (
     <Layout {...props} style={[props.style, styles.footerContainer]}>
       <Button style={styles.button} 
-        size = 'small' 
-        onPress={() => navigation.navigate("Account", {userId: id})}>
+        size="small"
+        onPress={() => navigation.navigate('Account', {userId: id})}
+      >
         Account
       </Button>
     </Layout>
@@ -26,9 +27,9 @@ function LoggedIn({ id }) {
   return(
     <Layout style={styles.Container}>
       <Card style={styles.flexbox} footer = {Footer}>
-          <Text style={styles.titleText} category="h1">
-            Welcome To Coffida
-          </Text>
+        <Text style={styles.titleText} category="h1">
+          Welcome To Coffida
+        </Text>
       </Card>
     </Layout>
   );

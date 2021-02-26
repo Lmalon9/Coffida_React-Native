@@ -26,8 +26,8 @@ function Account({ route }) {
       {
         method: 'get',
         headers: {
-          "Content-Type": "application/json",
-          "X-Authorization": tokenlog,
+          'Content-Type': 'application/json',
+          'X-Authorization': tokenlog,
         },
       })
       .then((res) => {
@@ -70,7 +70,7 @@ function Account({ route }) {
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
     //  console.log(tokenlog)
     await AsyncStorage.removeItem('@session_token');
-    fetch("http://10.0.2.2:3333/api/1.0.0/user/logout", 
+    fetch("http://10.0.2.2:3333/api/1.0.0/user/logout",
       {
         method: 'post',
         headers: {
@@ -80,13 +80,14 @@ function Account({ route }) {
       .then((res) => {
         if (res.status === 200)
         {
-          return;
+          return res;
         } else {
           throw 'failed';
         }
       })
       .then(async (data) => {
         // console.log(data);
+        ToastAndroid.showWithGravity("Logout Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
         await AsyncStorage.removeItem('@session_token');
         navigation.navigate('Home');
       })
@@ -95,9 +96,7 @@ function Account({ route }) {
 
   const Header = (props) => (
     <Layout {...props} style={[props.style, styles.headerContainer]}>
-      <Text category='h2'>
-        Hello {firstName}
-      </Text>
+      <Text category="h2">Hello {firstName}</Text>
     </Layout>
   );
 
@@ -137,15 +136,6 @@ function Account({ route }) {
           Users Email address: {email}
         </Text>
       </Card>
-      <TouchableOpacity>
-        <Button
-          style={styles.button}
-          size="small"
-          onPress={() => navigation.navigate('Home')}
-        >
-          Home
-        </Button>
-      </TouchableOpacity>
     </Layout>
   );
 }

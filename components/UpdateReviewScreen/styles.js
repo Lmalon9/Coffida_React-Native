@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     backgroundColor: '#151A30',
     borderColor: '#151A30',
-  }
+  },
 });
 
 export default styles;

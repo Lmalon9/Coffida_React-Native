@@ -69,7 +69,7 @@ function AccountUpdate() {
           navigation.navigate('Account');
           return;
         } else {
-          ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+          ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER);
           throw 'failed';
         }
       })
@@ -83,32 +83,41 @@ function AccountUpdate() {
   const passValidation = () =>{
     const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
     if (pattern.test(password) === false) {
-      ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER)
-    } else {
+      ToastAndroid.showWithGravity('Invalid Password', ToastAndroid.SHORT, ToastAndroid.CENTER);
+    }
+    else{
       send_update();
     }
   };
 
   const emailValidation = () =>{
-    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
+    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (pattern.test(email) === false) {
-      ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER)
+      ToastAndroid.showWithGravity('Invalid Email', ToastAndroid.SHORT, ToastAndroid.CENTER);
     } else {
       passValidation();
     }
   };
+  // pattern for password and email picked up from stackoverflow
 
   return (
     <Layout style={styles.container}>
-      <ScrollView style={{ alignSelf: 'center', width: '100%', height: '100%', margin: 20 }} 
-        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}>
+      <ScrollView
+        style={{
+          alignSelf: 'center',
+          width: '100%',
+          height: '100%',
+          margin: 20,
+        }}
+        contentContainerStyle={{ justifyContent: 'center', alignItems: 'center' }}
+      >
         <Text style={styles.text}>
           First Name:
         </Text>
         <Input
           style={styles.textbox}
           value={firstName}
-          onChangeText={text => setFirstName(text)}
+          onChangeText={(text) => setFirstName(text)}
         />
         <Text style={styles.text}>
           Last Name:
@@ -116,7 +125,7 @@ function AccountUpdate() {
         <Input
           style={styles.textbox}
           value={lastName}
-          onChangeText={text => setLastName(text)}
+          onChangeText={(text) => setLastName(text)}
         />
         <Text style={styles.text}>
           Email:
@@ -124,21 +133,22 @@ function AccountUpdate() {
         <Input
           style={styles.textbox}
           value={email}
-          onChangeText={text => setEmail(text)}
+          onChangeText={(text) => setEmail(text)}
         />
         <Text style={styles.text}>
           Password:
         </Text>
         <Input
           style={styles.textbox}
-          onChangeText={text => setPassword(text)}
+          onChangeText={(text) => setPassword(text)}
           secureTextEntry={true}
         />
         <TouchableOpacity>
           <Button
             style={styles.button}
-            size='small'
-            onPress={emailValidation}>
+            size="small"
+            onPress={emailValidation}
+          >
             Update
           </Button>
         </TouchableOpacity>

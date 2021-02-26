@@ -8,14 +8,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignContent: 'center',
-    backgroundColor: '#F7F9FC',
+    backgroundColor: '#C0C0C0',
   },
 
   flexbox: {
     height: 250,
     borderRadius: 10,
-    backgroundColor: '#EDF1F7',
-    borderColor: '#1A2138',
+    backgroundColor: '#FFFFFF',
+    borderColor: '#FFFFFF',
   },
 
   footerContainer: {
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 1,
-    backgroundColor: '#151A30',
-    borderColor: '#151A30',
+    backgroundColor: '#000080',
+    borderColor: '#000080',
   },
 });
 export default styles;

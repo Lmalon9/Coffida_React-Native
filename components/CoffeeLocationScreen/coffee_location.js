@@ -2,7 +2,6 @@
 import 'react-native-gesture-handler';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
-import { Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Rating } from 'react-native-elements';
 import AsyncStorage from '@react-native-async-storage/async-storage'
@@ -36,8 +35,7 @@ function coffeeLocation({ route }) {
         },
       })
         .then((res) => {
-          if (res.status === 200)
-          {
+          if (res.status === 200) {
             return res.json();
           } else {
             throw 'failed';

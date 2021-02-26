@@ -12,12 +12,6 @@ const CoffeeSpots = ({ location }) => {
   const [favourite, setFavourite] = useState(false);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    // console.log(location)
-    checkFavs();
-    // console.log(location)
-  }, []);
-
   const checkFavs = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
     const id = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
@@ -38,9 +32,15 @@ const CoffeeSpots = ({ location }) => {
       .then((data) => {
         const currentFavourites = (data.favourite_locations.filter(fav => fav.location_id === location.location_id).length) > 0;
         setFavourite(currentFavourites);
+        // Filter check the id of the favs and all the location ids, too see if it
+        // is present in the users list
       })
-      .catch((message) => {console.log("error" + message)})
+      .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
   };
+
+  useEffect(() => {
+    checkFavs();
+  }, []);
 
   async function fav_location(id) {
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -62,7 +62,7 @@ const CoffeeSpots = ({ location }) => {
           throw 'failed';
         };
       })
-      .catch((message) => { console.log("ERROR" + message)})
+      .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
   }
 
   const Header = (props) => (
@@ -102,7 +102,7 @@ const CoffeeSpots = ({ location }) => {
   );
   return (
     <Layout>
-      <Card style={styles.card} header = {Header} footer = {Footer} onPress={() => navigation.navigate('CoffeeLocation', {id: location.location_id})}>
+      <Card style={styles.card} header = {Header} footer = {Footer} onPress={() => navigation.navigate('CoffeeLocation', { id: location.location_id })}>
 
         <Image
           style={{

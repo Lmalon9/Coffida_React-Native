@@ -18,7 +18,6 @@ const UserReviewObject = ({ review }) => {
   const send_delete_review = async () => {
     const idlog = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-    console.log(idlog);
     fetch(`http://10.0.2.2:3333/api/1.0.0/location/${review.location.location_id}/review/${review.review.review_id}`,
       {
         method: 'delete',
@@ -65,14 +64,14 @@ const UserReviewObject = ({ review }) => {
   );
 
   const Footer = (props) => (
-      <Layout {...props}>
-        <Text category = "c2">
-          Overall Rating: {review.review.overall_rating},
-          Average Price Rating:{review.review.price_rating},
-          Average Clenliness Rating: {review.review.clenliness_rating},
-          Average Quality Rating: {review.review.quality_rating}
-        </Text>
-      </Layout>
+    <Layout {...props}>
+      <Text category="c2">
+        Overall Rating: {review.review.overall_rating},
+        Average Price Rating:{review.review.price_rating},
+        Average Clenliness Rating: {review.review.clenliness_rating},
+        Average Quality Rating: {review.review.quality_rating}
+      </Text>
+    </Layout>
   );
 
   return (

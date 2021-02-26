@@ -1,7 +1,12 @@
 /* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, Image, ScrollView } from 'react-native';
+import {
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  ToastAndroid,
+} from 'react-native';
 import { Rating } from 'react-native-elements';
 import {
   Text,
@@ -27,13 +32,35 @@ function ReviewUpdate({ route }) {
   // const [review_ID, setReview_ID] = useState({review: review.params.review.review.review_id})
   const navigation = useNavigation();
 
+  const review_photo = async () => {
+    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.review_Location}/review/${route.params.review_ID}/photo`,
+      {
+        method: 'get',
+        headers: {
+          'Content-Type': 'image/png',
+        },
+      })
+      .then((res) => {
+        if (res.status === 200)
+        {
+          // console.log(res);
+          return res;
+        } else {
+        throw 'failed';
+      };
+      })
+      .then((data) => {
+        setfiledata(data);
+        setfileURI(data.uri);
+      })
+      .catch((message) => { console.log("ERROR" + message); });
+  };
+
   useEffect(() => {
     navigation.addListener('focus', () => {
-      console.log(route.params.review_Location)
-      console.log(route.params.review_ID)
       review_photo();
     });
-});
+  });
 
   const updateReview = async () => {
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -54,38 +81,15 @@ function ReviewUpdate({ route }) {
       })
       .then((res) => {
         if (res.status === 200) {
+          ToastAndroid.showWithGravity("Update Successful", ToastAndroid.SHORT, ToastAndroid.CENTER);
           return
         } else {
+          ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
         }
       })
 
       .catch((message) => { console.log("ERROR" + message)})
-  }
-
-  const review_photo = async() => {
-    fetch(`http://10.0.2.2:3333/api/1.0.0/location/${route.params.review_Location}/review/${route.params.review_ID}/photo`,
-      {
-        method: 'get',
-        headers: {
-          'Content-Type': 'image/png',
-        },
-      })
-      .then((res) => {
-        if (res.status === 200)
-        {
-          // console.log(res);
-          return res;
-        } else {
-        throw 'failed';
-      };
-      })
-      .then((data) => {
-        setfiledata(data);
-        setfileURI(data.uri);
-        console.log(data);
-      })
-      .catch((message) => { console.log("ERROR" + message); });
   };
 
   const send_photo = async () => {
@@ -102,11 +106,11 @@ function ReviewUpdate({ route }) {
 
       .then((res) => {
         if (res.status === 200) {
-      // ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
-        console.log(res);
-        return;
+          ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER);
+          console.log(res);
+          return;
         } else {
-      // ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+          ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
       throw 'failed';
         }
       })
@@ -125,12 +129,12 @@ function ReviewUpdate({ route }) {
       })
 
       .then ((res) => {
-        if (res.status == 200) {
-        // ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+        if (res.status === 200) {
+          ToastAndroid.showWithGravity('Delete Successful', ToastAndroid.SHORT, ToastAndroid.CENTER);
           console.log(res);
           return;
         } else {
-          //ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+          ToastAndroid.showWithGravity('Delete Unsuccessful', ToastAndroid.SHORT, ToastAndroid.CENTER)
           throw 'failed';
         };
       })
@@ -147,30 +151,24 @@ function ReviewUpdate({ route }) {
     };
 
     ImagePicker.launchCamera(options, (response) => {
-      console.log(response);
       if (response.didCancel) {
-        console.log('canceled')
-      }
-      else if (response.error) {
-        console.log(response.error)
+        ToastAndroid.showWithGravity('Canceled', ToastAndroid.SHORT, ToastAndroid.CENTER);
+      } else if (response.error) {
+        ToastAndroid.showWithGravity('Error', ToastAndroid.SHORT, ToastAndroid.CENTER);
       }
       else{
-        //setsource(response.uri);
-        console.log(JSON.stringify(response));
         setfiledata(response);
-        console.log(filedata);
         setfileURI(response.uri);
 
         const data = new FormData();
-        data.append('filedata',{
+        data.append('filedata', {
           name: filedata.fileName,
           type: filedata.type,
           uri: Platform.OS === "android" ? filedata.uri : filedata.uri.replace("file://",""),
         });
-        console.log(data);
-        console.log(filedata);
-      }});
-  };
+      }
+    },
+    )}
 
   return (
     <ScrollView>
@@ -201,9 +199,9 @@ function ReviewUpdate({ route }) {
           Quality
         </Text>
         <Rating
-          showRating 
-          fractions={0} 
-          startingValue= {quality_rating}
+          showRating
+          fractions={0}
+          startingValue={quality_rating}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setQuality_rating}
@@ -212,32 +210,32 @@ function ReviewUpdate({ route }) {
           Clenliness
         </Text>
         <Rating
-          showRating 
-          fractions={0} 
-          startingValue = {clean_rating}
+          showRating
+          fractions={0}
+          startingValue={clean_rating}
           imageSize={30}
           ratingCount={5}
           onFinishRating={setClean_rating}
         />
-        <Input 
-          value = {review_body}
-          multiline = {true}
+        <Input
+          value={review_body}
+          multiline={true}
           textStyle={{ minHeight: 64 }}
-          onChangeText = {text => setReview_body(text)} 
+          onChangeText={(text) => setReview_body(text)}
         />
         <Image
-            source={{ uri: filedata.url + '?' + new Date() || fileURI }}
-            style={{ width: 200, height: 200, }}
+          source={{ uri: filedata.url + '?' + new Date() || fileURI }}
+          style={{ width: 200, height: 200 }}
         />
         <Button
-          size = 'small'
-          onPress = {cameraLaunch}
+          size="small"
+          onPress={cameraLaunch}
         >
           Take A Photo
         </Button>
         <Button
-          size = 'small'
-          onPress = {send_photo}
+          size="small"
+          onPress={send_photo}
         >
           Add the Photo to the review
         </Button>
@@ -249,10 +247,10 @@ function ReviewUpdate({ route }) {
         </Button>
         <TouchableOpacity on style={styles.button}>
           <Button
-          size = 'small'
-          onPress = {updateReview}
+            size="small"
+            onPress={updateReview}
           >
-          Update Review
+            Update Review
           </Button>
         </TouchableOpacity>
       </Layout>

@@ -15,9 +15,9 @@ import styles from './styles';
 function NotLoggedIn() {
   const navigation = useNavigation()
   const PersonIcon = (props) => (
-    <Icon {...props} name='person-outline'/>
+    <Icon {...props} name="person-outline" />
   );
-  
+
   const Footer = (props) => (
     <Layout {...props} style={[props.style, styles.footerContainer]}>
       <TouchableOpacity >
@@ -32,12 +32,12 @@ function NotLoggedIn() {
     </Layout>
   )
   return (
-    <Layout style={styles.Container} >
-        <Card style={styles.flexbox} footer = {Footer}>
-          <Text style={styles.titleText} category="h1">
-            Welcome To Coffida
-          </Text>
-        </Card>
+    <Layout style={styles.Container}>
+      <Card style={styles.flexbox} footer = {Footer}>
+        <Text style={styles.titleText} category="h1">
+          Welcome To Coffida
+        </Text>
+      </Card>
     </Layout>
   );
 }

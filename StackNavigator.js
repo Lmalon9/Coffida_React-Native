@@ -22,6 +22,7 @@ import ReviewPost from './components/AddReviewScreen/add_Review_Page';
 import UserReviewList from './components/UserReviewScreen/users_reviews';
 import ReviewUpdate from './components/UpdateReviewScreen/UserUpdateReview';
 import filter from './components/SearchScreen/search_page';
+import LocationDistance from './components/SearchScreen/location_results'
 import SearchResults from './components/SearchScreen/search_results';
 
 
@@ -46,7 +47,8 @@ const CoffeeStackNav = () => {
         <Stack.Screen name="Search" component={filter}/>
         <Stack.Screen name="Search Results" component={SearchResults}/>
         <Stack.Screen name="CoffeeLocation" component={coffeeLocation} />
-        <Stack.Screen name="AddReview" component={ReviewPost} />
+        <Stack.Screen name="Location Results" component={LocationDistance}/>
+        <Stack.Screen name="AddReview" component={ReviewPost}/>
         <Stack.Screen name="UsersReviews" component={UserReviewList} />
         <Stack.Screen name="Update User Review" component={ReviewUpdate} />
     </Stack.Navigator>

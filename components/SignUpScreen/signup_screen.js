@@ -1,7 +1,7 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, {useState} from 'react';
 import { Alert, TouchableOpacity, ToastAndroid } from 'react-native';
-import { 
+import {
   Text,
   Button,
   Layout,
@@ -12,60 +12,60 @@ import styles from './styles';
 
 
 function SignUp() {
-  const [first_name, setFirstName] = useState(''); // initialize state
-  const [last_name, setLastName] = useState(''); // initialize state
+  const [firstName, setFirstName] = useState(''); // initialize state
+  const [lastName, setLastName] = useState(''); // initialize state
   const [email, setEmail] = useState(''); // initialize state
   const [password, setPassword] = useState(''); // initialize state
   const navigation = useNavigation();
 
   const sendSignUp = () => {
-    fetch("http://10.0.2.2:3333/api/1.0.0/user",
+    fetch('http://10.0.2.2:3333/api/1.0.0/user',
       {
         method: 'post',
         headers: {
-          "Content-Type": "application/json"
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify( {
-          first_name: first_name,
-          last_name: last_name,
+          first_name: firstName,
+          last_name: lastName,
           email: email,
           password: password,
         }),
       })
-      .then ((res) => {
+      .then((res) => {
         if (res.status === 201) {
-          ToastAndroid.showWithGravity("SignUp Successful!", ToastAndroid.SHORT, ToastAndroid.CENTER)
+          ToastAndroid.showWithGravity('SignUp Successful!', ToastAndroid.SHORT, ToastAndroid.CENTER);
           return res.json();
         } else {
-          ToastAndroid.showWithGravity("SignUp Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
+          ToastAndroid.showWithGravity('SignUp Unsuccessful', ToastAndroid.SHORT, ToastAndroid.CENTER);
           throw 'failed';
         }
       })
       .then((data) => {
-        console.log(data);
-        navigation.navigate("Login")
+        navigation.navigate('Login')
       })
-      .catch((message) => { console.log("ERROR" + message)})
-    }
-
-  const emailValidation = () =>{
-    const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
-    if (pattern.test(email) === false) {
-      ToastAndroid.showWithGravity("Invalid Email", ToastAndroid.SHORT, ToastAndroid.CENTER);
-    } else {
-      passValidation();
-    }
+      .catch((message) => { console.log('ERROR' + message)})
   };
-  
+
   const passValidation = () =>{
     const pattern = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{6,20}$/;
     if (pattern.test(password) === false) {
-      ToastAndroid.showWithGravity("Invalid Password", ToastAndroid.SHORT, ToastAndroid.CENTER);
+      ToastAndroid.showWithGravity('Invalid Password', ToastAndroid.SHORT, ToastAndroid.CENTER);
     }
     else{
       sendSignUp();
     }
   };
+
+  const emailValidation = () =>{
+    const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    if (pattern.test(email) === false) {
+      ToastAndroid.showWithGravity('Invalid Email', ToastAndroid.SHORT, ToastAndroid.CENTER);
+    } else {
+      passValidation();
+    }
+  };
+  // pattern for password and email picked up from stackoverflow
 
   function alert() {
     Alert.alert('First: '+ first_name + ' Last: ' + last_name + ' email: ' + email + ' password: ' + password)
@@ -97,7 +97,6 @@ function SignUp() {
         placeholder="Email:"
         style={styles.textbox}
         onChangeText={(text) => setEmail(text)}
-        secureTextEntry={true}
       />
       <Text style={styles.text}>
         Password:

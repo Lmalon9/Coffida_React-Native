@@ -34,7 +34,7 @@ function CoffeeList (props) {
 
     async function getAllCoffeeLoc() {
       const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
-      fetch(`http://10.0.2.2:3333/api/1.0.0/find/`,
+      fetch('http://10.0.2.2:3333/api/1.0.0/find/',
         {
           method: 'get',
           headers: {
@@ -54,7 +54,7 @@ function CoffeeList (props) {
           setLocations(data)
           console.log(locations.location_photopath)
         })
-        .catch((message) => { console.log("ERROR" + message)})
+        .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
     }
   }, []);
 

@@ -22,8 +22,8 @@ const ReviewPost = ({ route }) => {
   const [cleanRating, setCleanRating] = useState(0); // initialize state
   const [reviewBody, setReviewBody] = useState(''); // initialize state
   const navigation = useNavigation();
-  const [filedata, setfiledata] = useState('');
-  const [fileURI, setfileURI] = useState('');
+  const [filedata, setfiledata] = useState('https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png');
+  const [fileURI, setfileURI] = useState('https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png');
 
   const addPhoto = async (reviewId) => {
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
@@ -43,6 +43,7 @@ const ReviewPost = ({ route }) => {
           navigation.navigate('CoffeeLocation', { id: route.params.id });
         } else {
           ToastAndroid.showWithGravity('Review Created, without image', ToastAndroid.SHORT, ToastAndroid.CENTER);
+          navigation.navigate('CoffeeLocation', { id: route.params.id });
         }
       })
       .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
@@ -99,7 +100,7 @@ const ReviewPost = ({ route }) => {
       })
       .then((res) => {
         if (res.status === 201) {
-          if (filedata === '') {
+          if (filedata === 'https://cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png') {
             ToastAndroid.showWithGravity('Review Created', ToastAndroid.SHORT, ToastAndroid.CENTER);
             navigation.navigate('CoffeeLocation', { id: route.params.id });
           } else {

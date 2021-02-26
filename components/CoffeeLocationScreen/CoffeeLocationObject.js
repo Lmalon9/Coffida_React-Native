@@ -66,7 +66,7 @@ const CoffeeLocationObject = ({ review, location }) => {
       .then((res) => {
         if (res.status === 200) {
           ToastAndroid.showWithGravity(like ? "Un Liked" :"Liked",  ToastAndroid.SHORT, ToastAndroid.CENTER);
-          like ? review.likes = review.likes=review.likes-1: review.likes=review.likes+1;
+          like ? review.likes=review.likes -1 : review.likes=review.likes +1;
           setLike(!like);
           return;
         } else {

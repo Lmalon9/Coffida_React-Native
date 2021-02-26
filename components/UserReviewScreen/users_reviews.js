@@ -1,9 +1,8 @@
 /* eslint-disable react/jsx-filename-extension */
 import 'react-native-gesture-handler';
 import React, { useEffect, useState } from 'react';
-import {ToastAndroid, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native'
-import {  Layout, List, Divider } from '@ui-kitten/components';
+import { Layout, List, Divider } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserReviewObject from './UserReviewObject';
 import styles from './styles';
