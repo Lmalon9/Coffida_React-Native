@@ -138,6 +138,9 @@ const ReviewPost = ({ route }) => {
           // eslint-disable-next-line no-undef
           uri: Platform.OS === 'android' ? filedata.uri : filedata.uri.replace('file://","'),
         });
+        // appends the filedata file, this seemed to fix an image rendering issue i was having
+        // on this page
+
         // console.log(data)
         // console.log(filedata)
       }
