@@ -110,7 +110,7 @@ const CoffeeSpots = ({ location }) => {
             width: 400,
             alignContent: 'center',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
           }}
           resizeMode="contain"
           source={{ uri: `${location.photo_path}` }}

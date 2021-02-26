@@ -42,7 +42,7 @@ function SignUp() {
         }
       })
       .then((data) => {
-        navigation.navigate('Login')
+        navigation.navigate('Login');
       })
       .catch((message) => { console.log('ERROR' + message)})
   };

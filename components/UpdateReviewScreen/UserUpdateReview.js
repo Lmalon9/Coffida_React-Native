@@ -82,6 +82,7 @@ function ReviewUpdate({ route }) {
       .then((res) => {
         if (res.status === 200) {
           ToastAndroid.showWithGravity("Update Successful", ToastAndroid.SHORT, ToastAndroid.CENTER);
+          navigation.navigate('UsersReviews');
           return
         } else {
           ToastAndroid.showWithGravity("Update Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
@@ -107,7 +108,8 @@ function ReviewUpdate({ route }) {
       .then((res) => {
         if (res.status === 200) {
           ToastAndroid.showWithGravity("Sent Successful", ToastAndroid.SHORT, ToastAndroid.CENTER);
-          console.log(res);
+          navigation.navigate('UsersReviews');
+          // console.log(res);
           return;
         } else {
           ToastAndroid.showWithGravity("Sent Unsuccessful", ToastAndroid.SHORT, ToastAndroid.CENTER)
@@ -128,10 +130,11 @@ function ReviewUpdate({ route }) {
         },
       })
 
-      .then ((res) => {
+      .then((res) => {
         if (res.status === 200) {
           ToastAndroid.showWithGravity('Delete Successful', ToastAndroid.SHORT, ToastAndroid.CENTER);
-          console.log(res);
+          navigation.navigate('UsersReviews');
+          // console.log(res);
           return;
         } else {
           ToastAndroid.showWithGravity('Delete Unsuccessful', ToastAndroid.SHORT, ToastAndroid.CENTER)
@@ -224,29 +227,33 @@ function ReviewUpdate({ route }) {
           onChangeText={(text) => setReview_body(text)}
         />
         <Image
-          source={{ uri: fileURI || filedata.url }}
+          source={{ uri: fileURI || filedata.url + '?' + new Date() }}
           style={{ width: 200, height: 200 }}
         />
         <Button
+          style={styles.button}
           size="small"
           onPress={cameraLaunch}
         >
           Take A Photo
         </Button>
         <Button
+          style={styles.button}
           size="small"
           onPress={send_photo}
         >
           Add the Photo to the review
         </Button>
         <Button
-          size='small'
+          style={styles.button}
+          size="small"
           onPress={del_photo}
         >
           Delete photo from review
         </Button>
-        <TouchableOpacity on style={styles.button}>
+        <TouchableOpacity>
           <Button
+            style={styles.button}
             size="small"
             onPress={updateReview}
           >
