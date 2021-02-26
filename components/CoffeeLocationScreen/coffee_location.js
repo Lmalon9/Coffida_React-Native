@@ -132,6 +132,7 @@ function coffeeLocation({ route }) {
         renderItem={({ item }) => (
           <CoffeeLocationObject review={item} location={locations} />
         )}
+        // cycles through the array to render using the CoffeeLocationObject
       />
     </Layout>
   );

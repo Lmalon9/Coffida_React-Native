@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 
-const CoffeeSpots = ({ location }) => {
+const CoffeeObject = ({ location }) => {
   const [favourite, setFavourite] = useState(false);
   const navigation = useNavigation();
 
@@ -121,4 +121,4 @@ const CoffeeSpots = ({ location }) => {
   );
 };
 
-export default CoffeeSpots;
+export default CoffeeObject;

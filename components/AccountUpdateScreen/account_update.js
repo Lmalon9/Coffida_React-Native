@@ -99,6 +99,8 @@ function AccountUpdate() {
     }
   };
   // pattern for password and email picked up from stackoverflow
+  // ensures that password has a capital letter, number and symbol
+  // and email follows the correct pattern
 
   return (
     <Layout style={styles.container}>

@@ -5,7 +5,7 @@ import {ToastAndroid, StyleSheet, StatusBar} from 'react-native';
 import { useNavigation } from '@react-navigation/native'
 import { Button, Layout, List, Divider } from '@ui-kitten/components';
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import CoffeeSpots from'./CoffeeObject.js'
+import CoffeeObject from'./CoffeeObject.js'
 import styles from './styles.js'
 
 function CoffeeList (props) {
@@ -72,7 +72,7 @@ function CoffeeList (props) {
         keyExtractor={(item) => item.location_id.toString()}
         ItemSeparatorComponent={Divider}
         renderItem={({ item }) => (
-          <CoffeeSpots location={item} />
+          <CoffeeObject location={item} />
         )}
       />
     </Layout>
