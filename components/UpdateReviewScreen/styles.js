@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   button: {
     flexDirection: 'column',
     marginTop: 10,
-    backgroundColor: '#151A30',
-    borderColor: '#151A30',
+    backgroundColor: '#000080',
+    borderColor: '#000080',
   },
 });
 

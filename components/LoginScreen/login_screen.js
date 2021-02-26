@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-filename-extension */
 import React, {useState} from 'react';
-import { ToastAndroid, TouchableOpacity } from 'react-native';
+import { ToastAndroid, Alert, TouchableOpacity } from 'react-native';
 import { Text, Button, Layout, Input } from '@ui-kitten/components';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -37,9 +37,13 @@ function Login() {
         await AsyncStorage.setItem('@session_token', JSON.stringify(data));
         navigation.navigate('Home');
       })
-      .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
+      .catch((message) => { console.log("ERROR" + message)})
   };
 
+  function alert() {
+    Alert.alert('Email: '+ email + ' Password: ' + password)
+    console.log(email, password)
+  }
   return (
     <Layout style={styles.container}>
       <Text style={styles.text}>
@@ -73,7 +77,7 @@ function Login() {
       </Text>
       <TouchableOpacity>
         <Button
-          size="small"
+          size ="small"
           style={styles.button}
           onPress={() => navigation.navigate('SignUp')}
         >

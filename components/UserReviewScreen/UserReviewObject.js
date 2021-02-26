@@ -8,6 +8,7 @@ import {
   Button,
   Layout,
 } from '@ui-kitten/components';
+import { Rating } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import styles from './styles';
@@ -64,13 +65,43 @@ const UserReviewObject = ({ review }) => {
   );
 
   const Footer = (props) => (
-    <Layout {...props}>
-      <Text category="c2">
-        Overall Rating: {review.review.overall_rating},
-        Average Price Rating:{review.review.price_rating},
-        Average Clenliness Rating: {review.review.clenliness_rating},
-        Average Quality Rating: {review.review.quality_rating}
+    <Layout {...props} style={{ flexDirection: 'row', flexWrap: 'wrap' }}>
+      <Text>
+        Overall Rating:
       </Text>
+      <Rating
+        startingValue={review.overall_rating}
+        imageSize={15}
+        ratingCount={5}
+        readonly
+      />
+      <Text>
+        Price Rating:
+      </Text>
+      <Rating
+        startingValue={review.price_rating}
+        imageSize={15}
+        ratingCount={5}
+        readonly
+      />
+      <Text style={{ flexWrap: 'wrap' }}>
+        Clenliness Rating:
+      </Text>
+      <Rating
+        startingValue={review.clenliness_rating}
+        imageSize={15}
+        ratingCount={5}
+        readonly
+      />
+      <Text>
+        Quality Rating:
+      </Text>
+      <Rating
+        startingValue={review.quality_rating}
+        imageSize={15}
+        ratingCount={5}
+        readonly
+      />
     </Layout>
   );
 

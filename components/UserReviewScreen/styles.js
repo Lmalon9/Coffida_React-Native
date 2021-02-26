@@ -18,8 +18,8 @@ const styles = StyleSheet.create({
     alignContent: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#151A30',
-    borderColor: '#151A30',
+    backgroundColor: '#000080',
+    borderColor: '#000080',
   },
   objectContainer: {
     flex: 1,
@@ -32,7 +32,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: 100,
     justifyContent: 'center',
-    borderColor: '#151A30',
+    backgroundColor: '#000080',
+    borderColor: '#000080',
   },
 });
 

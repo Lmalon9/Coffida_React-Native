@@ -224,7 +224,7 @@ function ReviewUpdate({ route }) {
           onChangeText={(text) => setReview_body(text)}
         />
         <Image
-          source={{ uri: filedata.url + '?' + new Date() || fileURI }}
+          source={{ uri: fileURI || filedata.url }}
           style={{ width: 200, height: 200 }}
         />
         <Button
