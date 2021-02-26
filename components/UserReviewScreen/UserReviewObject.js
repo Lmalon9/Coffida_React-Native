@@ -9,8 +9,8 @@ import {
   Layout,
 } from '@ui-kitten/components';
 import { Rating } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import styles from './styles';
 
 const UserReviewObject = ({ review }) => {
@@ -70,7 +70,7 @@ const UserReviewObject = ({ review }) => {
         Overall Rating:
       </Text>
       <Rating
-        startingValue={review.overall_rating}
+        startingValue={review.review.overall_rating}
         imageSize={15}
         ratingCount={5}
         readonly
@@ -79,7 +79,7 @@ const UserReviewObject = ({ review }) => {
         Price Rating:
       </Text>
       <Rating
-        startingValue={review.price_rating}
+        startingValue={review.review.price_rating}
         imageSize={15}
         ratingCount={5}
         readonly
@@ -88,7 +88,7 @@ const UserReviewObject = ({ review }) => {
         Clenliness Rating:
       </Text>
       <Rating
-        startingValue={review.clenliness_rating}
+        startingValue={review.review.clenliness_rating}
         imageSize={15}
         ratingCount={5}
         readonly
@@ -97,7 +97,7 @@ const UserReviewObject = ({ review }) => {
         Quality Rating:
       </Text>
       <Rating
-        startingValue={review.quality_rating}
+        startingValue={review.review.quality_rating}
         imageSize={15}
         ratingCount={5}
         readonly

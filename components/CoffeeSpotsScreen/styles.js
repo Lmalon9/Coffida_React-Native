@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
   },
   header: {
     alignContent: 'stretch',
-    alignItems: 'stretch'
+    alignItems: 'stretch',
   },
 });
 

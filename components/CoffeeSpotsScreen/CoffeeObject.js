@@ -12,6 +12,10 @@ const CoffeeSpots = ({ location }) => {
   const [favourite, setFavourite] = useState(false);
   const navigation = useNavigation();
 
+  useEffect(() => {
+    checkFavs();
+  }, []);
+
   const checkFavs = async () => {
     const token = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
     const id = JSON.parse(await AsyncStorage.getItem('@session_token')).id;
@@ -37,10 +41,6 @@ const CoffeeSpots = ({ location }) => {
       })
       .catch((message) => ToastAndroid.showWithGravity(`ERROR ${message}`));
   };
-
-  useEffect(() => {
-    checkFavs();
-  }, []);
 
   async function fav_location(id) {
     const tokenlog = JSON.parse(await AsyncStorage.getItem('@session_token')).token;
